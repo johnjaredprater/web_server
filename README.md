@@ -29,6 +29,29 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### Dockerize
+
+Build with the following command (when at the root of the repo)
+```bash
+export IMAGE_TAG=johnjaredprater/web_server:$(git rev-parse HEAD)
+docker build -t $IMAGE_TAG .
+```
+
+Run the app with
+```bash
+docker run -p 3000:3000 -t $IMAGE_TAG
+```
+
+Push to dockerhub with
+```bash
+docker push $IMAGE_TAG
+```
+
+Push from dockerhub with
+```bash
+sudo docker pull $IMAGE_TAG
+```
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
