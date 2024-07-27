@@ -1,4 +1,4 @@
-name: Build, Containerize
+name: Build
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build-containerize-release:
+  build:
 
     runs-on: ubuntu-latest
 

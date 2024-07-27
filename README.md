@@ -2,39 +2,40 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Local Development
 
-In the project directory, you can run:
-
-## Setup Development Environment
+```
+npm install --global git-conventional-commits
+```
 
 Assuming pipenv is set-up, you can use pip to install pre-commit:
 ```
 pip install pre-commit
+pre-commit install -t commit-msg
 ```
 
-### `npm start`
+To install dependencies, use
+```
+npm install
+```
 
-Runs the app in the development mode.\
+Run the app in the development mode with:
+```
+npm start
+```
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Run the test runner in the interactive watch mode with:
+```
+npm test
+```
+More info [in the docs](https://facebook.github.io/create-react-app/docs/running-tests)
 
-### `npm test`
+To build the app for production in the `build` folder use
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm run build
+```
 
 ### Containerize & Push
 
