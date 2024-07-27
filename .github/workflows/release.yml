@@ -3,8 +3,8 @@ name: Build, Containerize & Release
 on:
   push:
     branches: [ "main" ]
-    # tags:
-    #   - 'v*'
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
@@ -49,9 +49,9 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         release-type: simple
-    - 
-      id: get_version
-      uses: baileyherbert/version-action@v3
+    -
+      name: test
+      run: echo ${{ steps.release.outputs }}
     -
       name: Docker meta
       id: meta
@@ -59,7 +59,7 @@ jobs:
       with:
         images: johnjaredprater/web_server
         tags: |
-          ${{ steps.get_version.outputs.version }}
+          ${{ steps.release.outputs.version }}
     -
       name: Build and push
       uses: docker/build-push-action@v6
