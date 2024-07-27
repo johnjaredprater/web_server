@@ -29,7 +29,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Dockerize
+### Dockerize & Push
 
 Build with the following command (when at the root of the repo)
 ```bash
