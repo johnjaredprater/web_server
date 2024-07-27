@@ -6,6 +6,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Setup Development Environment
+
+Assuming pipenv is set-up, you can use pip to install pre-commit:
+```
+pip install pre-commit
+```
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -29,7 +36,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Dockerize
+### Containerize & Push
 
 Build with the following command (when at the root of the repo)
 ```bash

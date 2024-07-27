@@ -1,14 +1,8 @@
-name: Build, Containerize & Release
+name: Build, Containerize
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
 
@@ -19,7 +13,7 @@ jobs:
     steps:
     - 
       uses: actions/checkout@v4
-    -
+    -  
       name: Use Node.js
       uses: actions/setup-node@v4
       with:
@@ -43,13 +37,6 @@ jobs:
         username: johnjaredprater
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     -
-      name: Create Release
-      uses: googleapis/release-please-action@v4
-      if: ${{github.ref == 'refs/heads/main'}}
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        release-type: simple
-    -
       name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
@@ -58,8 +45,6 @@ jobs:
         tags: |
           type=ref,event=branch
           type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
     -
       name: Build and push
       uses: docker/build-push-action@v6
