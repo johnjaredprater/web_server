@@ -50,14 +50,16 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         release-type: simple
     -
+      id: get_version
+      uses: baileyherbert/version-action@v3
+    -
       name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
       with:
         images: johnjaredprater/web_server
         tags: |
-          type=ref,event=branch
-          type=ref,event=pr
+          type=semver,pattern{{steps.get_version.outputs.version}}
           type=semver,pattern={{version}}
           type=semver,pattern={{github.event.release.tag_name}}
           type=semver,pattern={{major}}.{{minor}}
