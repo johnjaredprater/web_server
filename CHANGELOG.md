@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/johnjaredprater/web_server/compare/v0.1.1...v0.1.2) (2024-07-28)
+
+
+### Bug Fixes
+
+* Update the README & the release docker tag ([70dd473](https://github.com/johnjaredprater/web_server/commit/70dd473f9c6a28080dee89644b49f8084e6092fa))
+
 ## [0.1.1](https://github.com/johnjaredprater/web_server/compare/v0.1.0...v0.1.1) (2024-07-28)
 
 
