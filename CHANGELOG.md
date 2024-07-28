@@ -1,3 +1,12 @@
+# Changelog
+
+## [0.1.1](https://github.com/johnjaredprater/web_server/compare/v0.1.0...v0.1.1) (2024-07-28)
+
+
+### Bug Fixes
+
+* push release tag image ([28c1e81](https://github.com/johnjaredprater/web_server/commit/28c1e81b7b03563d0e3cecb8dc66735725caa105))
+
 ## 0.1.0 (2024-07-28)
 
 
