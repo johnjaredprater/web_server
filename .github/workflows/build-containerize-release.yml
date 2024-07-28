@@ -44,6 +44,7 @@ jobs:
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     -
       name: Create Release
+      id: release
       uses: googleapis/release-please-action@v4
       if: ${{github.ref == 'refs/heads/main'}}
       with:

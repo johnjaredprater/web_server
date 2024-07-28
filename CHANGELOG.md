@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/johnjaredprater/web_server/compare/v0.1.0...v0.1.1) (2024-07-28)
+
+
+### Bug Fixes
+
+* Release a new version ([#6](https://github.com/johnjaredprater/web_server/issues/6)) ([73ba022](https://github.com/johnjaredprater/web_server/commit/73ba0229279c76a95be40ef56cbb27441936ed6a))
+
 ## 0.1.0 (2024-07-28)
 
 
