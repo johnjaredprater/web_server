@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/johnjaredprater/web_server/compare/v0.1.1...v0.1.2) (2024-07-28)
+
+
+### Bug Fixes
+
+* Restrict to version branches ([8d39236](https://github.com/johnjaredprater/web_server/commit/8d39236c4b5f68741c61543f951fa93ddd7c867b))
+
 ## [0.1.1](https://github.com/johnjaredprater/web_server/compare/v0.1.0...v0.1.1) (2024-07-28)
 
 
