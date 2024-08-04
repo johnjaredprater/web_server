@@ -55,7 +55,7 @@ Push to dockerhub with
 docker push $IMAGE_TAG
 ```
 
-Push from dockerhub with
+Pull from dockerhub with
 ```bash
 sudo docker pull $IMAGE_TAG
 ```
