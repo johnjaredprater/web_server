@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/johnjaredprater/web_server/compare/v0.1.2...v0.2.0) (2024-08-04)
+
+
+### Features
+
+* Add Flux v2.3.0 component manifests ([0d85fd6](https://github.com/johnjaredprater/web_server/commit/0d85fd6a63ceedd4ef6e9b447c81f613aa315575))
+
 ## [0.1.2](https://github.com/johnjaredprater/web_server/compare/v0.1.1...v0.1.2) (2024-07-28)
 
 
