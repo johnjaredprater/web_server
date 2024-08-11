@@ -48,7 +48,9 @@ jobs:
       uses: googleapis/release-please-action@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        release-type: simple
+        release-type: node
+        extra-files: |
+          deployment.yaml
     -
       name: Docker meta
       id: meta
@@ -65,3 +67,6 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+
+    - name: Update Kubernetes YAML with new Docker tag
+      run: .github/update-k8s-tag.sh ${{ steps.release.outputs.version }}
