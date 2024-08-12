@@ -6,7 +6,7 @@ K8S_DEPLOYMENT_FILE=deployment.yaml
 # Replace the old image tag with the new tag
 sed -i "s|image: johnjaredprater/web_server:.*|image:johnjaredprater/web_server:$NEW_TAG|g" $K8S_DEPLOYMENT_FILE
 
-# hmm
+# Identify the bot making the change
 git config user.name github-actions
 git config user.email github-actions@github.com
 
