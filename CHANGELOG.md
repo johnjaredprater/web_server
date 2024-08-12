@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/johnjaredprater/web_server/compare/v0.3.0...v0.3.1) (2024-08-12)
+
+
+### Bug Fixes
+
+* use the GitRepository watch ([fda39e2](https://github.com/johnjaredprater/web_server/commit/fda39e251447f5bf547074f975e7330a97265390))
+
 ## [0.3.0](https://github.com/johnjaredprater/web_server/compare/v0.1.2...v0.3.0) (2024-08-12)
 
 
