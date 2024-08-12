@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/johnjaredprater/web_server/compare/v0.1.2...v0.2.0) (2024-08-12)
+
+
+### Features
+
+* Add Flux v2.3.0 component manifests ([0d85fd6](https://github.com/johnjaredprater/web_server/commit/0d85fd6a63ceedd4ef6e9b447c81f613aa315575))
+* test flux deployment ([bdddb2b](https://github.com/johnjaredprater/web_server/commit/bdddb2b39c4eb4373dfb0978d2ef2d9cd19309a3))
+
+
+### Bug Fixes
+
+* try a new release to unstick the release-please MR ([3e73167](https://github.com/johnjaredprater/web_server/commit/3e73167fc23506a0148c678d5921e2ae4f2a1e38))
+
 ## [0.1.2](https://github.com/johnjaredprater/web_server/compare/v0.1.1...v0.1.2) (2024-07-28)
 
 
