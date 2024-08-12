@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/johnjaredprater/web_server/compare/v0.3.1...v0.3.2) (2024-08-12)
+
+
+### Bug Fixes
+
+* fix sed command in script ([220fe24](https://github.com/johnjaredprater/web_server/commit/220fe24b12f880d3922e3f6f19eafd09cdf564b7))
+
 ## [0.3.1](https://github.com/johnjaredprater/web_server/compare/v0.3.0...v0.3.1) (2024-08-12)
 
 
