@@ -12,5 +12,5 @@ git config user.email github-actions@github.com
 
 # Commit the changes
 git add $K8S_DEPLOYMENT_FILE
-git commit -m "chore: Update Kubernetes deployment to use Docker image tag $NEW_TAG"
+git commit -m "chore (main): Update Kubernetes deployment to use Docker image tag $NEW_TAG"
 git push https://github-actions:${GITHUB_TOKEN}@github.com/johnjaredprater/web_server.git main
