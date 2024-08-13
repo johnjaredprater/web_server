@@ -8,11 +8,11 @@ spec:
   url: https://github.com/johnjaredprater/web_server
   ref:
     branch: main
-  # ignore: |
-  #   # exclude all
-  #   /*
-  #   # include charts directory
-  #   !/k8s/
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !./deploymment.yaml
 # -----
 
 # apiVersion: kustomize.toolkit.fluxcd.io/v1
