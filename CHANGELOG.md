@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/johnjaredprater/web_server/compare/v0.3.2...v0.3.3) (2024-08-13)
+
+
+### Bug Fixes
+
+* exclude other files ([6340946](https://github.com/johnjaredprater/web_server/commit/63409463977827ec22d8a083d40a8e81fdd2abfa))
+
 ## [0.3.2](https://github.com/johnjaredprater/web_server/compare/v0.3.1...v0.3.2) (2024-08-12)
 
 
