@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/johnjaredprater/web_server/compare/v0.3.3...v0.3.4) (2024-08-13)
+
+
+### Bug Fixes
+
+* reorganise structure ([3216d5d](https://github.com/johnjaredprater/web_server/commit/3216d5dc48d72c9faf39f7c69ba0823933062996))
+
 ## [0.3.3](https://github.com/johnjaredprater/web_server/compare/v0.3.2...v0.3.3) (2024-08-13)
 
 
