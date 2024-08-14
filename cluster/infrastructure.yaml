@@ -21,12 +21,12 @@ kind: Kustomization
 #   - deployment.yaml
 metadata:
   name: web-server
-  namespace: default
+  namespace: flux-system
 spec:
   interval: 1m0s
   prune: true
-  path: ./cluster
+  path: ./
   sourceRef:
     kind: GitRepository
-    name: web_server
+    name: web-server
   targetNamespace: default
