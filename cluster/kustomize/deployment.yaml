@@ -17,4 +17,4 @@ spec:
         - name: web-server-container
           image: johnjaredprater/web_server:0.4.1
           # ports:
-          #   - containerPort: 8080
+          #   - containerPort: 3000
