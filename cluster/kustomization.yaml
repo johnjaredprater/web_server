@@ -17,16 +17,16 @@
 
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
-resources:
-  - deployment.yaml
-# metadata:
-#   name: web-server
-#   namespace: default
-# spec:
-#   interval: 1m0s
-#   prune: true
-#   path: ./
-#   sourceRef:
-#     kind: GitRepository
-#     name: web_server
-#   targetNamespace: default
+# resources:
+#   - deployment.yaml
+metadata:
+  name: web-server
+  namespace: default
+spec:
+  interval: 1m0s
+  prune: true
+  path: ./cluster
+  sourceRef:
+    kind: GitRepository
+    name: web_server
+  targetNamespace: default
