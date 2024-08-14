@@ -41,8 +41,9 @@ npm run build
 
 Build with the following command (when at the root of the repo)
 ```bash
-export IMAGE_TAG=johnjaredprater/web_server:$(git rev-parse HEAD)
-docker build -t $IMAGE_TAG .
+export VERSION=$(git rev-parse HEAD)
+export IMAGE_TAG=johnjaredprater/web_server:$VERSION
+docker build -t $IMAGE_TAG . --build-arg VERSION=$VERSION
 ```
 
 Run the app with

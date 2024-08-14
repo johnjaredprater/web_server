@@ -11,11 +11,16 @@ permissions:
   pull-requests: write
 
 jobs:
+  
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+    - uses: pre-commit/action@v3.0.1
 
   build-release:
-
     runs-on: ubuntu-latest
-
     steps:
     - 
       uses: actions/checkout@v4
@@ -27,10 +32,18 @@ jobs:
     - 
       run: npm ci
     - 
-      run: npm run build --if-present
-    - 
       run: npm test
     -
+      name: Create Release
+      id: release
+      uses: googleapis/release-please-action@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release-type: simple
+        # release-type: node
+        # extra-files: |
+        #   deployment.yaml
+    - 
       name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     -
@@ -43,16 +56,6 @@ jobs:
         username: johnjaredprater
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     -
-      name: Create Release
-      id: release
-      uses: googleapis/release-please-action@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        release-type: simple
-        # release-type: node
-        # extra-files: |
-        #   deployment.yaml
-    -
       name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
@@ -61,7 +64,12 @@ jobs:
         tags: |
           ${{ steps.release.outputs.version }}
     -
-      name: Build and push
+      name: Build
+      run: |
+        export REACT_APP_VERSION=$DOCKER_METADATA_OUTPUT_VERSION
+        npm run build --if-present
+    -
+      name: Containerize and Push
       uses: docker/build-push-action@v6
       with:
         context: .
