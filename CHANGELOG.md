@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/johnjaredprater/web_server/compare/v0.3.4...v0.4.0) (2024-08-14)
+
+
+### Miscellaneous Chores
+
+* release 0.4.0 ([24d70c7](https://github.com/johnjaredprater/web_server/commit/24d70c7484d3417ff822defd360d7329cca57504))
+
 ## [0.3.4](https://github.com/johnjaredprater/web_server/compare/v0.3.3...v0.3.4) (2024-08-13)
 
 
