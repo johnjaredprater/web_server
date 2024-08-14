@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/johnjaredprater/web_server/compare/v0.4.1...v0.5.0) (2024-08-14)
+
+
+### Features
+
+* Display the version ([1e3aa1d](https://github.com/johnjaredprater/web_server/commit/1e3aa1dbda2690c39bf215fb9196ab1ad37be1e1))
+
 ## [0.4.1](https://github.com/johnjaredprater/web_server/compare/v0.4.0...v0.4.1) (2024-08-14)
 
 
