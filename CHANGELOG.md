@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/johnjaredprater/web_server/compare/v0.4.0...v0.4.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* update name ([468101a](https://github.com/johnjaredprater/web_server/commit/468101aa898cb69f4da6abf31a41a869d474a356))
+
 ## [0.4.0](https://github.com/johnjaredprater/web_server/compare/v0.3.4...v0.4.0) (2024-08-14)
 
 
