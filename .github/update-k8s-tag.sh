@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NEW_TAG=$1
-K8S_DEPLOYMENT_FILE=cluster/kustomize/deployment.yaml
+K8S_DEPLOYMENT_FILE=deploy/manifests/deployment.yaml
 
 # Replace the old image tag with the new tag
 sed -i "s|image: johnjaredprater/web_server:.*|image: johnjaredprater/web_server:$NEW_TAG|g" $K8S_DEPLOYMENT_FILE
