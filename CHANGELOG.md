@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/johnjaredprater/web_server/compare/v0.5.0...v0.5.1) (2024-08-15)
+
+
+### Bug Fixes
+
+* restructure deployment configs ([714edf7](https://github.com/johnjaredprater/web_server/commit/714edf7c2e89dc9d283441da705ee7ba9e6244fa))
+
 ## [0.5.0](https://github.com/johnjaredprater/web_server/compare/v0.4.1...v0.5.0) (2024-08-14)
 
 
