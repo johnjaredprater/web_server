@@ -1,3 +1,4 @@
+# Exposes a UI for FluxCD https://github.com/gimlet-io/capacitor
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
