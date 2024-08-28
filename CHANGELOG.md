@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/johnjaredprater/web_server/compare/v0.5.1...v0.6.0) (2024-08-28)
+
+
+### Features
+
+* Add service config to expose deployment ([6309c0f](https://github.com/johnjaredprater/web_server/commit/6309c0f1d84107923b29ff56483eea486141648d))
+
 ## [0.5.1](https://github.com/johnjaredprater/web_server/compare/v0.5.0...v0.5.1) (2024-08-15)
 
 
