@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/johnjaredprater/web_server/compare/v0.6.0...v0.6.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* Remove capacitor for now ([29e0a8c](https://github.com/johnjaredprater/web_server/commit/29e0a8c4c6d73232c6ea0df9b41aad2b0618c9cb))
+
 ## [0.6.0](https://github.com/johnjaredprater/web_server/compare/v0.5.1...v0.6.0) (2024-08-28)
 
 
