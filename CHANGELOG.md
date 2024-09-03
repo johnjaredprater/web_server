@@ -2,10 +2,9 @@
 
 ## [0.7.0](https://github.com/johnjaredprater/web_server/compare/v0.6.1...v0.7.0) (2024-09-03)
 
-
 ### Features
 
-* Add login page allowing a user to 'Sign in with Google' ([c54b3f6](https://github.com/johnjaredprater/web_server/commit/c54b3f6fe9640026db2b3ef5485abfc248267603))
+- Add login page allowing a user to 'Sign in with Google' ([c54b3f6](https://github.com/johnjaredprater/web_server/commit/c54b3f6fe9640026db2b3ef5485abfc248267603))
 
 ## [0.6.1](https://github.com/johnjaredprater/web_server/compare/v0.6.0...v0.6.1) (2024-08-28)
 

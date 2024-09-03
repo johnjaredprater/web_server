@@ -2,6 +2,6 @@
 npx tsc --noEmit
 
 # Prettier to enforce formatting
-prettier --write .
+prettier --write ./src
 
 npx eslint ./src --fix
