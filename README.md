@@ -5,30 +5,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Local Development
 
 ```
-npm install --global git-conventional-commits
-```
-
-Assuming pipenv is set-up, you can use pip to install pre-commit:
-```
-pip install pre-commit
-pre-commit install -t commit-msg
-```
-
-To install dependencies, use
-```
 npm install
 ```
 
 Run the app in the development mode with:
+
 ```
 npm start
 ```
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Run the test runner in the interactive watch mode with:
+
 ```
 npm test
 ```
+
 More info [in the docs](https://facebook.github.io/create-react-app/docs/running-tests)
 
 To build the app for production in the `build` folder use
@@ -40,6 +33,7 @@ npm run build
 ### Containerize & Push
 
 Build with the following command (when at the root of the repo)
+
 ```bash
 export VERSION=$(git rev-parse HEAD)
 export IMAGE_TAG=johnjaredprater/web_server:$VERSION
@@ -47,16 +41,19 @@ docker build -t $IMAGE_TAG . --build-arg VERSION=$VERSION
 ```
 
 Run the app with
+
 ```bash
 docker run -p 3000:3000 -t $IMAGE_TAG
 ```
 
 Push to dockerhub with
+
 ```bash
 docker push $IMAGE_TAG
 ```
 
 Pull from dockerhub with
+
 ```bash
 sudo docker pull $IMAGE_TAG
 ```

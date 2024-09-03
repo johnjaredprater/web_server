@@ -1,9 +1,12 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders version text', () => {
+test("Renders Login Page", () => {
   render(<App />);
-  const linkElement = screen.getByText(/I am version/i);
-  // expect(linkElement).toBeInTheDocument();
+  const linkElement = screen.getByText(/My App/i);
+  expect(linkElement).toBeInTheDocument();
+
+  const singInButton = screen.getByText(/Sign In with Google/i);
+  expect(singInButton).toBeInTheDocument();
 });
