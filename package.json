@@ -48,8 +48,11 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
     "@eslint/js": "^9.9.1",
     "@types/eslint__js": "^8.42.3",
+    "commitlint": "^19.4.1",
     "eslint": "^8.57.0",
     "husky": "^9.1.5",
     "prettier": "^3.3.3",
