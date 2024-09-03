@@ -1,9 +1,7 @@
-# Run TypeScript's type checker
+# TypeScript's type checker
 npx tsc --noEmit
 
-# Run Prettier to check formatting
+# Prettier to enforce formatting
 prettier --write .
 
 npx eslint ./src --fix
-
-npx git-conventional-commits commit-msg-hook "$1"
