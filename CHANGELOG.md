@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/johnjaredprater/web_server/compare/v0.7.0...v0.8.0) (2024-09-08)
+
+
+### Features
+
+* change the website icon & name ([0340775](https://github.com/johnjaredprater/web_server/commit/0340775116d25a0585852b227a108e2b267f9528))
+
 ## [0.7.0](https://github.com/johnjaredprater/web_server/compare/v0.6.1...v0.7.0) (2024-09-03)
 
 ### Features
