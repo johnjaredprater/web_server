@@ -3,6 +3,8 @@ import { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./firebase/Auth";
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import { SvgIcon, Typography } from "@mui/material";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,11 +32,18 @@ const Login = () => {
 
   return (
     <>
-      <main className="App-header">
+      <main className="App-fullpage">
         <section>
           <div>
-            <p> My App </p>
-
+            <Typography variant="h4" gutterBottom>
+              <SvgIcon
+                fontSize="large"
+                style={{ verticalAlign: "middle", marginRight: 8 }}
+              >
+                <FitnessCenterIcon />
+              </SvgIcon>
+              GymTrack
+            </Typography>
             <div>
               <SignInWithGoogleButton
                 onClick={onLogin}
