@@ -15,7 +15,7 @@ export const CurrentUserContext = createContext<CurrentUserContextType | null>(
   null,
 );
 
-function CurrentUserContextProviser({
+function CurrentUserContextProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -48,7 +48,7 @@ function UnauthenticatedOnly({ children }: { children: React.ReactNode }) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  return <>{children}/</>;
+  return <>{children}</>;
 }
 
 function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
@@ -60,7 +60,7 @@ function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <>{children}/</>;
+  return <>{children}</>;
 }
 
 function App() {
@@ -68,7 +68,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <section>
-          <CurrentUserContextProviser>
+          <CurrentUserContextProvider>
             <Routes>
               <Route
                 path="/"
@@ -87,7 +87,7 @@ function App() {
                 }
               />
             </Routes>
-          </CurrentUserContextProviser>
+          </CurrentUserContextProvider>
         </section>
       </div>
     </BrowserRouter>

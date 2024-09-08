@@ -4,7 +4,7 @@ import App from "./App";
 
 test("Renders Login Page", () => {
   render(<App />);
-  const linkElement = screen.getByText(/My App/i);
+  const linkElement = screen.getByText(/GymTrack/i);
   expect(linkElement).toBeInTheDocument();
 
   const singInButton = screen.getByText(/Sign In with Google/i);
