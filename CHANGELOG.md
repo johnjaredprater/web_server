@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/johnjaredprater/web_server/compare/v0.8.0...v0.8.1) (2024-09-08)
+
+
+### Bug Fixes
+
+* version update commit message ([baf74c2](https://github.com/johnjaredprater/web_server/commit/baf74c237a9a019e7dd1bcd950d9f758f97b5b32))
+
 ## [0.8.0](https://github.com/johnjaredprater/web_server/compare/v0.7.0...v0.8.0) (2024-09-08)
 
 
