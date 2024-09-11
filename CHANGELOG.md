@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.9.0](https://github.com/johnjaredprater/web_server/compare/v0.8.1...v0.9.0) (2024-09-11)
+
+
+### Features
+
+* query gym-track-core ([7651d47](https://github.com/johnjaredprater/web_server/commit/7651d477c4741bea42f6dc0975275110d93c3c9f))
+
+
+### Bug Fixes
+
+* disable tests for now ([5f0090a](https://github.com/johnjaredprater/web_server/commit/5f0090a1464a636cf5f47233e2b05e9d0057cae5))
+
 ## [0.8.1](https://github.com/johnjaredprater/web_server/compare/v0.8.0...v0.8.1) (2024-09-08)
 
 
