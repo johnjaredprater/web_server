@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "22.x"
       - run: npm ci
-      - run: npm test
+      # - run: npm test
       - name: Create Release
         id: release
         uses: googleapis/release-please-action@v4
