@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2](https://github.com/johnjaredprater/web_server/compare/v0.9.1...v0.9.2) (2024-09-14)
+
+
+### Bug Fixes
+
+* use internet-facing api ([2c39ea9](https://github.com/johnjaredprater/web_server/commit/2c39ea932ae2e8fedd9e50acbe745f3674782710))
+
 ## [0.9.1](https://github.com/johnjaredprater/web_server/compare/v0.9.0...v0.9.1) (2024-09-14)
 
 
