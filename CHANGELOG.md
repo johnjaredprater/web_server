@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/johnjaredprater/web_server/compare/v0.9.0...v0.9.1) (2024-09-14)
+
+
+### Bug Fixes
+
+* don't deploy a load balancer from this repo ([f90e190](https://github.com/johnjaredprater/web_server/commit/f90e190b52f85c67ee9abe485fa431f838d89be9))
+
 ## [0.9.0](https://github.com/johnjaredprater/web_server/compare/v0.8.1...v0.9.0) (2024-09-11)
 
 
