@@ -2,16 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-server-service
-  namespace: default
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:eu-north-1:339712723771:certificate/30af5d53-02f1-446d-b3aa-3521c2c8c81d"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
 spec:
-  type: LoadBalancer
-  ports:
-    - port: 443
-      targetPort: 3000
-      protocol: TCP
   selector:
     app: web-server
+  ports:
+    - protocol: TCP
+      port: 3000  # Port exposed by the service
+      targetPort: 3000  # Port on the target pod
