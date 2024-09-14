@@ -26,7 +26,7 @@ function Home() {
   useEffect(() => {
     const getData = async () => {
       const response = await axios
-        .get("http://gym-track-core.default.svc.cluster.local:80")
+        .get("https://gym.johnprater.me/api")
         .catch(function (error) {
           if (error.response) {
             // The request was made and the server responded with a status code
