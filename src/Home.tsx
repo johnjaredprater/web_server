@@ -17,16 +17,36 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
+interface Exercise {
+  id: number;
+  name: string;
+  video_link?: string;
+}
+
+const pageWIdth = 600;
 
 function Home() {
   const userContext = useContext(CurrentUserContext);
 
-  const [data, updateData] = useState();
+  console.log(userContext?.user);
+
+  const [data, updateData] = useState<Exercise[] | null>();
 
   useEffect(() => {
     const getData = async () => {
+      // const accessToken = await userContext?.user?.getIdToken()
       const response = await axios
-        .get("https://gym.johnprater.me/api")
+        // .get(
+        //   "http://localhost:8000/api/exercises"
+        // )
+        .get("https://gym.johnprater.me/api/exercises")
+        // , {
+        //   headers: {
+        //     'Authorization': `Bearer ${accessToken}`
+        //   }
+        // })
         .catch(function (error) {
           if (error.response) {
             // The request was made and the server responded with a status code
@@ -55,7 +75,7 @@ function Home() {
   return (
     <>
       <header className="App-header">
-        <Grid container sx={{ width: "100%", maxWidth: 720 }} spacing={2}>
+        <Grid container sx={{ width: "100%", maxWidth: pageWIdth }} spacing={2}>
           <Grid size={6}>
             <Typography variant="h4" marginTop={2} align="left">
               <SvgIcon
@@ -72,14 +92,20 @@ function Home() {
               Welcome {userContext?.user?.displayName}!
               <button
                 className="gsi-material-button"
-                style={{ marginLeft: 8 }}
+                style={{
+                  marginLeft: 8,
+                  height: 28,
+                  fontSize: 16,
+                  verticalAlign: "top",
+                  padding: 8,
+                }}
                 onClick={() => {
                   signOut(auth);
                 }}
               >
                 <div className="gsi-material-button-state"></div>
                 <div className="gsi-material-button-content-wrapper">
-                  <span className="gsi-material-button-contents">Logout</span>
+                  <span className="gsi-material-button-contents">Sign out</span>
                 </div>
               </button>
             </Typography>
@@ -88,30 +114,52 @@ function Home() {
       </header>
 
       <main className="App-main">
-        <p>gym-track-core repsonse: {data}</p>
-
-        <p>A table:</p>
+        <Grid container sx={{ width: "100%", maxWidth: pageWIdth }}>
+          <Typography variant="h6" align="left" gutterBottom>
+            Here are some exercises you could be doing:
+          </Typography>
+        </Grid>
         <div>
           <TableContainer component={Paper}>
             <Table
-              sx={{ minWidth: 720 }}
+              sx={{ minWidth: pageWIdth, maxWidth: pageWIdth }}
               size="small"
               aria-label="simple table"
             >
               <TableHead>
                 <TableRow>
                   <TableCell>Id</TableCell>
-                  <TableCell>Timestamp</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Video Link</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow
-                  // key={row.message_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>id-1</TableCell>
-                  <TableCell>now!</TableCell>
-                </TableRow>
+                {data &&
+                  data.map((exercise) => (
+                    <TableRow
+                      key={exercise.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {exercise.id}
+                      </TableCell>
+                      <TableCell>{exercise.name}</TableCell>
+                      <TableCell>
+                        <a
+                          href={exercise.video_link}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          <SvgIcon
+                            fontSize="small"
+                            style={{ verticalAlign: "middle", marginRight: 8 }}
+                          >
+                            <OpenInNewIcon />
+                          </SvgIcon>
+                        </a>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -119,7 +167,7 @@ function Home() {
       </main>
 
       <footer className="App-footer">
-        <Grid container sx={{ width: "100%", maxWidth: 720 }} spacing={2}>
+        <Grid container sx={{ width: "100%", maxWidth: pageWIdth }} spacing={2}>
           <Typography variant="body2" marginTop={2} align="left">
             version {process.env.REACT_APP_VERSION}
           </Typography>
