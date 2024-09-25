@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/johnjaredprater/web_server/compare/v0.10.0...v0.10.1) (2024-09-25)
+
+
+### Bug Fixes
+
+* pass auth credentials to gym-track-core ([a4f87d4](https://github.com/johnjaredprater/web_server/commit/a4f87d4bfd621b7cd64b225a4a175ede86070138))
+
 ## [0.10.0](https://github.com/johnjaredprater/web_server/compare/v0.9.2...v0.10.0) (2024-09-18)
 
 
