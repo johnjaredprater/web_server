@@ -36,17 +36,14 @@ function Home() {
 
   useEffect(() => {
     const getData = async () => {
-      // const accessToken = await userContext?.user?.getIdToken()
+      const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        // .get(
-        //   "http://localhost:8000/api/exercises"
-        // )
-        .get("https://gym.johnprater.me/api/exercises")
-        // , {
-        //   headers: {
-        //     'Authorization': `Bearer ${accessToken}`
-        //   }
-        // })
+        // .get("http://localhost:8000/api/exercises"
+        .get("https://gym.johnprater.me/api/exercises", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .catch(function (error) {
           if (error.response) {
             // The request was made and the server responded with a status code
@@ -70,7 +67,7 @@ function Home() {
       }
     };
     getData();
-  }, []);
+  }, [userContext]);
 
   return (
     <>
@@ -88,7 +85,7 @@ function Home() {
             </Typography>
           </Grid>
           <Grid size={6}>
-            <Typography variant="subtitle1" marginTop={2} align="right">
+            <Typography variant="subtitle1" marginTop={3} align="right">
               Welcome {userContext?.user?.displayName}!
               <button
                 className="gsi-material-button"
