@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.2](https://github.com/johnjaredprater/web_server/compare/v0.11.1...v0.11.2) (2024-10-07)
+
+
+### Bug Fixes
+
+* move avatar ([b9ff037](https://github.com/johnjaredprater/web_server/commit/b9ff03725a7f9a22bccf5c793216a2d3c3c51ebf))
+
 ## [0.11.1](https://github.com/johnjaredprater/web_server/compare/v0.11.0...v0.11.1) (2024-10-07)
 
 
