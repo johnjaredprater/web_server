@@ -6,6 +6,7 @@ import { signOut } from "firebase/auth";
 import { CurrentUserContext } from "./App";
 import { format } from "date-fns";
 import {
+  Avatar,
   Paper,
   SvgIcon,
   Table,
@@ -44,18 +45,15 @@ function Home() {
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const pageWIdth = windowWidth >= 660 ? 600 : windowWidth - 60;
 
   const userContext = useContext(CurrentUserContext);
-
   console.log(userContext?.user);
 
   const [exercises, updateExercises] = useState<Exercise[] | null>();
-
   const [workouts, updateWorkouts] = useState<Workout[] | null>();
 
   useEffect(() => {
@@ -133,22 +131,22 @@ function Home() {
           </Grid>
           <Grid size={5}>
             <Typography variant="subtitle1" marginTop={3} align="right">
-              <img
-                src={
-                  userContext?.user?.photoURL ? userContext.user.photoURL : ""
-                }
-                data-tooltip-content={
-                  "Signed in as " + userContext?.user?.displayName
-                }
-                data-tooltip-id="tooltip"
-                data-tooltip-place="bottom"
-                style={{
-                  borderRadius: "50%",
-                  width: 28,
-                  height: 28,
-                }}
-                referrerPolicy="no-referrer"
-              />
+              {userContext?.user?.displayName && (
+                <Avatar
+                  alt={userContext.user.displayName}
+                  src={
+                    userContext.user.photoURL
+                      ? userContext.user.photoURL
+                      : undefined
+                  }
+                  style={{ color: "#fbe9be" }}
+                  data-tooltip-content={
+                    "Signed in as " + userContext?.user?.displayName
+                  }
+                  data-tooltip-id="tooltip"
+                  data-tooltip-place="bottom"
+                />
+              )}
               <Tooltip id="tooltip" />
               <button
                 className="gsi-material-button"
