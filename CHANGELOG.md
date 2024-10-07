@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/johnjaredprater/web_server/compare/v0.10.1...v0.11.0) (2024-10-07)
+
+
+### Features
+
+* display workouts ([0a6d334](https://github.com/johnjaredprater/web_server/commit/0a6d334387ffb90c3ea5f157f751a33725f18f0f))
+
 ## [0.10.1](https://github.com/johnjaredprater/web_server/compare/v0.10.0...v0.10.1) (2024-09-25)
 
 
