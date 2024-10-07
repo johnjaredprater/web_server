@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/johnjaredprater/web_server/compare/v0.11.0...v0.11.1) (2024-10-07)
+
+
+### Bug Fixes
+
+* use mui avatar ([6847b3a](https://github.com/johnjaredprater/web_server/commit/6847b3ae7a5de16b337e521c26afaaab4e9f798f))
+
 ## [0.11.0](https://github.com/johnjaredprater/web_server/compare/v0.10.1...v0.11.0) (2024-10-07)
 
 
