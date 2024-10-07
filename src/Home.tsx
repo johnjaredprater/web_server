@@ -129,24 +129,26 @@ function Home() {
               GymTrack
             </Typography>
           </Grid>
-          <Grid size={5}>
+          <Grid size={1}>
+            {userContext?.user?.displayName && (
+              <Avatar
+                alt={userContext.user.displayName}
+                src={
+                  userContext.user.photoURL
+                    ? userContext.user.photoURL
+                    : undefined
+                }
+                style={{ color: "#fbe9be" }}
+                data-tooltip-content={
+                  "Signed in as " + userContext?.user?.displayName
+                }
+                data-tooltip-id="tooltip"
+                data-tooltip-place="bottom"
+              />
+            )}
+          </Grid>
+          <Grid size={4}>
             <Typography variant="subtitle1" marginTop={3} align="right">
-              {userContext?.user?.displayName && (
-                <Avatar
-                  alt={userContext.user.displayName}
-                  src={
-                    userContext.user.photoURL
-                      ? userContext.user.photoURL
-                      : undefined
-                  }
-                  style={{ color: "#fbe9be" }}
-                  data-tooltip-content={
-                    "Signed in as " + userContext?.user?.displayName
-                  }
-                  data-tooltip-id="tooltip"
-                  data-tooltip-place="bottom"
-                />
-              )}
               <Tooltip id="tooltip" />
               <button
                 className="gsi-material-button"
