@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.3](https://github.com/johnjaredprater/web_server/compare/v0.11.2...v0.11.3) (2024-10-08)
+
+
+### Bug Fixes
+
+* shrink the avatar ([b2e0445](https://github.com/johnjaredprater/web_server/commit/b2e04458821998c99ebb34ae75ea29a211262254))
+
 ## [0.11.2](https://github.com/johnjaredprater/web_server/compare/v0.11.1...v0.11.2) (2024-10-07)
 
 
