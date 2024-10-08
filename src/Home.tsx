@@ -7,6 +7,7 @@ import { CurrentUserContext } from "./App";
 import { format } from "date-fns";
 import {
   Avatar,
+  Box,
   Paper,
   SvgIcon,
   Table,
@@ -129,46 +130,60 @@ function Home() {
               GymTrack
             </Typography>
           </Grid>
-          <Grid size={1}>
-            {userContext?.user?.displayName && (
-              <Avatar
-                alt={userContext.user.displayName}
-                src={
-                  userContext.user.photoURL
-                    ? userContext.user.photoURL
-                    : undefined
-                }
-                style={{ color: "#fbe9be" }}
-                data-tooltip-content={
-                  "Signed in as " + userContext?.user?.displayName
-                }
-                data-tooltip-id="tooltip"
-                data-tooltip-place="bottom"
-              />
-            )}
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="subtitle1" marginTop={3} align="right">
-              <Tooltip id="tooltip" />
-              <button
-                className="gsi-material-button"
-                style={{
-                  marginLeft: 8,
-                  height: 28,
-                  fontSize: 16,
-                  verticalAlign: "top",
-                  padding: 8,
-                }}
-                onClick={() => {
-                  signOut(auth);
-                }}
-              >
-                <div className="gsi-material-button-state"></div>
-                <div className="gsi-material-button-content-wrapper">
-                  <span className="gsi-material-button-contents">Sign out</span>
-                </div>
-              </button>
-            </Typography>
+          <Grid size={5}>
+            <Box
+              display="flex"
+              alignItems="right"
+              justifyContent="flex-end"
+              gap={1}
+            >
+              <Typography variant="subtitle1" marginTop={3} align="right">
+                {userContext?.user?.displayName && (
+                  <Avatar
+                    alt={userContext.user.displayName}
+                    src={
+                      userContext.user.photoURL
+                        ? userContext.user.photoURL
+                        : undefined
+                    }
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      bgcolor: "#fbe9be",
+                      color: "#001c56",
+                    }}
+                    data-tooltip-content={
+                      "Signed in as " + userContext?.user?.displayName
+                    }
+                    data-tooltip-id="tooltip"
+                    data-tooltip-place="bottom"
+                  />
+                )}
+              </Typography>
+              <Typography variant="subtitle1" marginTop={3} align="right">
+                <Tooltip id="tooltip" />
+                <button
+                  className="gsi-material-button"
+                  style={{
+                    marginLeft: 8,
+                    height: 28,
+                    fontSize: 16,
+                    verticalAlign: "top",
+                    padding: 8,
+                  }}
+                  onClick={() => {
+                    signOut(auth);
+                  }}
+                >
+                  <div className="gsi-material-button-state"></div>
+                  <div className="gsi-material-button-content-wrapper">
+                    <span className="gsi-material-button-contents">
+                      Sign out
+                    </span>
+                  </div>
+                </button>
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </header>
