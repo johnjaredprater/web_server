@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.2](https://github.com/johnjaredprater/web_server/compare/v0.12.1...v0.12.2) (2024-10-13)
+
+
+### Bug Fixes
+
+* put sets and reps in the right columns ([7592a3f](https://github.com/johnjaredprater/web_server/commit/7592a3fde5b08c2cff42627a3975a8073349f1a3))
+
 ## [0.12.1](https://github.com/johnjaredprater/web_server/compare/v0.12.0...v0.12.1) (2024-10-13)
 
 
