@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/johnjaredprater/web_server/compare/v0.11.3...v0.12.0) (2024-10-13)
+
+
+### Features
+
+* add tabs & the ability to create & delete workouts ([a4f878c](https://github.com/johnjaredprater/web_server/commit/a4f878c0d21c8f37ca0255e5dfdd28e190c7bed2))
+
 ## [0.11.3](https://github.com/johnjaredprater/web_server/compare/v0.11.2...v0.11.3) (2024-10-08)
 
 
