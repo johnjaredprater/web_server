@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/johnjaredprater/web_server/compare/v0.12.0...v0.12.1) (2024-10-13)
+
+
+### Bug Fixes
+
+* eslint ([c32ef0c](https://github.com/johnjaredprater/web_server/commit/c32ef0ccefdb2ac1f72106c5a086c5aaba263e48))
+
 ## [0.12.0](https://github.com/johnjaredprater/web_server/compare/v0.11.3...v0.12.0) (2024-10-13)
 
 
