@@ -450,14 +450,14 @@ export default function WorkoutTable(props: EnhancedTableProps) {
                     sx={{ whiteSpace: "nowrap" }}
                     align="right"
                   >
-                    {row.sets}
+                    {row.reps}
                   </TableCell>
                   <TableCell
                     padding="none"
                     sx={{ whiteSpace: "nowrap" }}
                     align="right"
                   >
-                    {row.reps}
+                    {row.sets}
                   </TableCell>
                   <TableCell
                     padding="normal"

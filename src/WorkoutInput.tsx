@@ -83,7 +83,6 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
       };
       const intValue = parseInt(value);
       setFormData({ ...formData, [name]: intValue ? intValue : 0 });
-      console.log(formData);
     };
 
     const handleExerciseChange = (
