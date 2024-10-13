@@ -269,48 +269,46 @@ export default function WorkoutTable(props: EnhancedTableProps) {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const getTableData = async () => {
-    const accessToken = await userContext?.user?.getIdToken();
-    const response = await axios
-      // .get("http://localhost:8000/api/workouts", {
-      .get("https://gym.johnprater.me/api/workouts", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
-    if (response) {
-      const workouts: Workout[] = response.data;
-      return workouts.map((workout) => {
-        const tableRow = {
-          id: workout.id,
-          date: workout.updated_at,
-          exercise: workout.exercise.name,
-          weight: workout.weight,
-          reps: workout.reps,
-          sets: workout.sets,
-          rpe: workout.rpe ? workout.rpe : 0,
-        };
-        return tableRow;
-      });
-    }
-    return [];
-  };
-
   const [tableData, updateTableData] = useState<Data[]>([]);
   const userContext = useContext(CurrentUserContext);
 
   useEffect(() => {
+    const getTableData = async () => {
+      const accessToken = await userContext?.user?.getIdToken();
+      const response = await axios
+        // .get("http://localhost:8000/api/workouts", {
+        .get("https://gym.johnprater.me/api/workouts", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
+      if (response) {
+        const workouts: Workout[] = response.data;
+        return workouts.map((workout) => {
+          const tableRow = {
+            id: workout.id,
+            date: workout.updated_at,
+            exercise: workout.exercise.name,
+            weight: workout.weight,
+            reps: workout.reps,
+            sets: workout.sets,
+            rpe: workout.rpe ? workout.rpe : 0,
+          };
+          return tableRow;
+        });
+      }
+      return [];
+    };
     const update = async () => {
       updateTableData(await getTableData());
     };

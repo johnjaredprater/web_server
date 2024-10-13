@@ -90,6 +90,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
       event: React.SyntheticEvent,
       value: string | null,
     ) => {
+      // eslint-disable-next-line
       setFormData({ ...formData, ["exercise_name"]: value ? value : "" });
     };
 
