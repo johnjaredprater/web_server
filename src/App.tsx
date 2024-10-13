@@ -6,6 +6,31 @@ import { BrowserRouter, Navigate, useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./auth/Login";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { teal, pink } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: teal[400],
+    },
+    secondary: {
+      main: pink[500],
+    },
+  },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff",
+          "&.Mui-selected": {
+            color: teal[400],
+          },
+        },
+      },
+    },
+  },
+});
 
 interface CurrentUserContextType {
   user: User | null;
@@ -65,32 +90,34 @@ function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <section>
-          <CurrentUserContextProvider>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <AuthenticatedRoute>
-                    <Home />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <UnauthenticatedOnly>
-                    <Login />
-                  </UnauthenticatedOnly>
-                }
-              />
-            </Routes>
-          </CurrentUserContextProvider>
-        </section>
-      </div>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <div className="App">
+          <section>
+            <CurrentUserContextProvider>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <AuthenticatedRoute>
+                      <Home />
+                    </AuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <UnauthenticatedOnly>
+                      <Login />
+                    </UnauthenticatedOnly>
+                  }
+                />
+              </Routes>
+            </CurrentUserContextProvider>
+          </section>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
