@@ -11,7 +11,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Exercise } from "./Home";
+import { baseUrl, Exercise } from "./Home";
 
 interface WorkoutForm {
   exercise_name: string;
@@ -27,6 +27,75 @@ type WorkoutInputProps = {
   incrementWorkoutsModified: React.Dispatch<React.SetStateAction<number>>;
 };
 
+type NumberInputFieldProps = {
+  id: string;
+  label: string;
+  value: string | undefined;
+  formData: WorkoutForm;
+  setFormData: React.Dispatch<React.SetStateAction<WorkoutForm>>;
+  min: number;
+  max: number;
+  validateAsInt?: boolean;
+  adornment?: string;
+  required?: boolean;
+};
+
+const NumberInputField: React.FC<NumberInputFieldProps> = ({
+  id,
+  label,
+  value,
+  formData,
+  setFormData,
+  min,
+  max,
+  validateAsInt = false,
+  adornment = "",
+  required = false,
+}) => {
+  const handleChange = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target as {
+      name: keyof WorkoutForm;
+      value: string;
+    };
+    if (value === "") {
+      setFormData({ ...formData, [name]: value });
+    } else if (validateAsInt) {
+      const intValue = parseInt(value);
+      if (intValue >= min && intValue <= max) {
+        setFormData({ ...formData, [name]: intValue.toFixed(0) });
+      }
+    } else {
+      const floatValue = parseFloat(value);
+      if (floatValue >= min && floatValue <= max) {
+        setFormData({
+          ...formData,
+          [name]: (Math.round(floatValue * 100) / 100).toString(),
+        });
+      }
+    }
+  };
+
+  return (
+    <TextField
+      required={required}
+      id={id}
+      label={label}
+      type="number"
+      name={id}
+      value={value}
+      onChange={handleChange}
+      slotProps={{
+        input: {
+          inputProps: { min: min, max: max },
+          endAdornment: (
+            <InputAdornment position="end">{adornment}</InputAdornment>
+          ),
+        },
+      }}
+    />
+  );
+};
+
 const WorkoutInput: React.FC<WorkoutInputProps> = ({
   maxWidth,
   workoutsModified,
@@ -40,8 +109,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
     const getExercises = async () => {
       const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        // .get("http://localhost:8000/api/exercises", {
-        .get("https://gym.johnprater.me/api/exercises", {
+        .get(`${baseUrl}/api/exercises`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -73,17 +141,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
       sets: "",
       reps: "",
       weight: "",
-      rpe: "",
     });
-
-    const handleChange = (event: React.FocusEvent<HTMLInputElement>) => {
-      const { name, value } = event.target as {
-        name: keyof WorkoutForm;
-        value: string;
-      };
-      const intValue = parseInt(value);
-      setFormData({ ...formData, [name]: intValue ? intValue : 0 });
-    };
 
     const handleExerciseChange = (
       event: React.SyntheticEvent,
@@ -103,9 +161,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
       if (exercise) {
         await axios
           .post(
-            // "http://localhost:8000/api/workouts",
-            // {
-            "https://gym.johnprater.me/api/workouts",
+            `${baseUrl}/api/workouts`,
             {
               exercise_id: exercise.id,
               weight: formData.weight,
@@ -174,56 +230,49 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
                 value={formData.exercise_name}
                 onChange={handleExerciseChange}
               />
-              <TextField
+              <NumberInputField
                 required
                 id="weight"
                 label="Weight"
-                type="number"
-                name="weight"
                 value={formData.weight}
-                onChange={handleChange}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">kg</InputAdornment>
-                    ),
-                  },
-                }}
+                formData={formData}
+                setFormData={setFormData}
+                min={-1000}
+                max={10000}
+                adornment="kg"
               />
-              <TextField
+              <NumberInputField
                 required
+                validateAsInt
                 id="reps"
                 label="Reps"
-                type="number"
-                name="reps"
                 value={formData.reps}
-                onChange={handleChange}
+                formData={formData}
+                setFormData={setFormData}
+                min={0}
+                max={10000}
               />
-              <TextField
+              <NumberInputField
                 required
+                validateAsInt
                 id="sets"
                 label="Sets"
-                type="number"
-                name="sets"
                 value={formData.sets}
-                onChange={handleChange}
+                formData={formData}
+                setFormData={setFormData}
+                min={0}
+                max={10000}
               />
-              <TextField
-                required
+              <NumberInputField
+                validateAsInt
                 id="rpe"
                 label="RPE"
-                type="number"
-                name="rpe"
                 value={formData.rpe}
-                onChange={handleChange}
-                slotProps={{
-                  input: {
-                    inputProps: { min: 0, max: 10 },
-                    endAdornment: (
-                      <InputAdornment position="end">/10</InputAdornment>
-                    ),
-                  },
-                }}
+                formData={formData}
+                setFormData={setFormData}
+                min={0}
+                max={10}
+                adornment="/10"
               />
               <div>
                 <Button type="submit" color="primary">

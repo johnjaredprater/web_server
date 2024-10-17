@@ -18,7 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { useContext, useEffect, useState } from "react";
-import { Workout } from "./Home";
+import { baseUrl, Workout } from "./Home";
 import { format } from "date-fns";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
@@ -30,7 +30,7 @@ interface Data {
   weight: number;
   reps: number;
   sets: number;
-  rpe: number;
+  rpe: number | undefined;
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -46,11 +46,15 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof Data>(
-  order: Order,
+  order: string | null,
   orderBy: Key,
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  a: {
+    [key in Key]: number | string | undefined | null;
+  },
+  b: {
+    [key in Key]: number | string | undefined | null;
+  },
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -68,7 +72,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: "date",
     numeric: false,
-    disablePadding: false,
+    disablePadding: true,
     label: "Date",
   },
   {
@@ -98,7 +102,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: "rpe",
     numeric: true,
-    disablePadding: false,
+    disablePadding: true,
     label: "RPE",
   },
 ];
@@ -150,7 +154,7 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="left" //{headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ whiteSpace: "nowrap" }}
@@ -188,8 +192,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const promises = selected.map(async (tableRow) => {
       console.log(`Deleting Workout ${tableRow}`);
       await axios
-        // .delete(`http://localhost:8000/api/workouts/${tableRow}`, {
-        .delete(`https://gym.johnprater.me/api/workouts/${tableRow}`, {
+        .delete(`${baseUrl}/api/workouts/${tableRow}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -276,8 +279,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
     const getTableData = async () => {
       const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        // .get("http://localhost:8000/api/workouts", {
-        .get("https://gym.johnprater.me/api/workouts", {
+        .get(`${baseUrl}/api/workouts`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -302,7 +304,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
             weight: workout.weight,
             reps: workout.reps,
             sets: workout.sets,
-            rpe: workout.rpe ? workout.rpe : 0,
+            rpe: workout.rpe,
           };
           return tableRow;
         });
@@ -384,7 +386,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
         incrementWorkoutsModified={props.incrementWorkoutsModified}
       />
       <TableContainer>
-        <Table aria-labelledby="tableTitle" size={"small"}>
+        <Table aria-labelledby="tableTitle" size={"small"} padding="none">
           <EnhancedTableHead
             numSelected={selected.length}
             order={order}
@@ -409,10 +411,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
                   selected={isItemSelected}
                   sx={{ cursor: "pointer" }}
                 >
-                  <TableCell
-                    // padding="checkbox"
-                    padding="none"
-                  >
+                  <TableCell>
                     <Checkbox
                       color="primary"
                       checked={isItemSelected}
@@ -426,44 +425,23 @@ export default function WorkoutTable(props: EnhancedTableProps) {
                     component="th"
                     id={labelId}
                     scope="row"
-                    // padding="none"
                     sx={{ whiteSpace: "nowrap" }}
                   >
                     {format(new Date(row.date), "yyyy-MM-dd")}
                   </TableCell>
-                  <TableCell
-                    padding="none"
-                    sx={{ whiteSpace: "nowrap" }}
-                    align="left"
-                  >
+                  <TableCell sx={{ whiteSpace: "nowrap" }} align="left">
                     {row.exercise}
                   </TableCell>
-                  <TableCell
-                    padding="none"
-                    sx={{ whiteSpace: "nowrap" }}
-                    align="right"
-                  >
+                  <TableCell sx={{ whiteSpace: "nowrap" }} align="left">
                     {`${row.weight} kg`}
                   </TableCell>
-                  <TableCell
-                    padding="none"
-                    sx={{ whiteSpace: "nowrap" }}
-                    align="right"
-                  >
+                  <TableCell sx={{ whiteSpace: "nowrap" }} align="left">
                     {row.reps}
                   </TableCell>
-                  <TableCell
-                    padding="none"
-                    sx={{ whiteSpace: "nowrap" }}
-                    align="right"
-                  >
+                  <TableCell sx={{ whiteSpace: "nowrap" }} align="left">
                     {row.sets}
                   </TableCell>
-                  <TableCell
-                    padding="normal"
-                    sx={{ whiteSpace: "nowrap" }}
-                    align="right"
-                  >
+                  <TableCell sx={{ whiteSpace: "nowrap" }} align="left">
                     {row.rpe}
                   </TableCell>
                 </TableRow>
@@ -472,7 +450,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
             {emptyRows > 0 && (
               <TableRow
                 style={{
-                  height: 33 * emptyRows,
+                  height: 39 * emptyRows,
                 }}
               >
                 <TableCell colSpan={6} />

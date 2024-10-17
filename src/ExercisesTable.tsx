@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Exercise } from "./Home";
+import { baseUrl, Exercise } from "./Home";
 
 type ExerciseTableProps = {
   maxWidth: number;
@@ -28,8 +28,7 @@ function ExercisesTable(props: ExerciseTableProps) {
     const getExercises = async () => {
       const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        // .get("http://localhost:8000/api/exercises", {
-        .get("https://gym.johnprater.me/api/exercises", {
+        .get(`${baseUrl}/api/exercises`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

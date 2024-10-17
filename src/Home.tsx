@@ -14,6 +14,9 @@ import WorkoutTable from "./WorkoutTable";
 import { useTheme } from "@mui/material/styles";
 import ExercisesTable from "./ExercisesTable";
 
+export const baseUrl = "https://gym.johnprater.me";
+// export const baseUrl = "http://localhost:8000";
+
 export interface Exercise {
   id: number;
   name: string;
