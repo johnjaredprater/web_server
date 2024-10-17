@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.3](https://github.com/johnjaredprater/web_server/compare/v0.12.2...v0.12.3) (2024-10-17)
+
+
+### Bug Fixes
+
+* allow float weights & dont make RPE mandatory ([c29449d](https://github.com/johnjaredprater/web_server/commit/c29449dab6b47c25b1fca6a36143fc53a745bcb2))
+
 ## [0.12.2](https://github.com/johnjaredprater/web_server/compare/v0.12.1...v0.12.2) (2024-10-13)
 
 
