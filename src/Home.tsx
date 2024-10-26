@@ -13,6 +13,7 @@ import WorkoutTable from "./WorkoutTable";
 
 import { useTheme } from "@mui/material/styles";
 import ExercisesTable from "./ExercisesTable";
+import ExercisesBoard from "./ExercisesBoard";
 
 export const baseUrl = "https://gym.johnprater.me";
 // export const baseUrl = "http://localhost:8000";
@@ -62,7 +63,13 @@ function Home() {
       <header className="App-header">
         <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
           <Grid size={7}>
-            <Typography variant="h4" marginTop={2} align="left">
+            <Typography
+              variant="h4"
+              marginTop={2}
+              align="left"
+              data-tooltip-content={`version: ${process.env.REACT_APP_VERSION}`}
+              data-tooltip-id="version-tooltip"
+            >
               <SvgIcon
                 fontSize="large"
                 style={{ verticalAlign: "middle", marginRight: 8 }}
@@ -71,6 +78,11 @@ function Home() {
               </SvgIcon>
               GymTrack
             </Typography>
+            <Tooltip
+              id="version-tooltip"
+              style={{ display: "inline-block", zIndex: 1 }}
+              place="left"
+            />
           </Grid>
           <Grid size={5}>
             <Box
@@ -97,11 +109,11 @@ function Home() {
                     data-tooltip-content={
                       "Signed in as " + userContext.user.displayName
                     }
-                    data-tooltip-id="tooltip"
+                    data-tooltip-id="user-tooltip"
                   />
                 )}
                 <Tooltip
-                  id="tooltip"
+                  id="user-tooltip"
                   style={{ display: "inline-block", zIndex: 1 }}
                   place="bottom"
                 />
@@ -143,6 +155,7 @@ function Home() {
             centered
           >
             <Tab label="Workouts" sx={{ fontSize: "medium" }} />
+            <Tab label="Personal Bests" sx={{ fontSize: "medium" }} />
             <Tab label="Exercises" sx={{ fontSize: "medium" }} />
           </Tabs>
         </Grid>
@@ -180,18 +193,28 @@ function Home() {
 
         {tab_index === 1 && (
           <div>
+            <ExercisesBoard
+              maxWidth={pageWidth}
+              workoutsModified={workoutsModified}
+              incrementWorkoutsModified={incrementWorkoutsModified}
+            />
+          </div>
+        )}
+
+        {tab_index === 2 && (
+          <div>
             <ExercisesTable maxWidth={pageWidth} />
           </div>
         )}
       </main>
 
-      <footer className="App-footer">
+      {/* <footer className="App-footer">
         <Grid container sx={{ width: "100%", maxWidth: pageWidth }} spacing={2}>
           <Typography variant="body2" marginTop={2} align="left">
-            version {process.env.REACT_APP_VERSION}
+            version {}
           </Typography>
         </Grid>
-      </footer>
+      </footer> */}
     </>
   );
 }
