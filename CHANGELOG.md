@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/johnjaredprater/web_server/compare/v0.12.3...v0.13.0) (2024-10-26)
+
+
+### Features
+
+* add personal best board ([d9b5e2e](https://github.com/johnjaredprater/web_server/commit/d9b5e2eb99b5c9f023e87b62ffc46fb7db91bdc7))
+
 ## [0.12.3](https://github.com/johnjaredprater/web_server/compare/v0.12.2...v0.12.3) (2024-10-17)
 
 
