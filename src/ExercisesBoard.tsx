@@ -7,16 +7,29 @@ import { useContext, useEffect, useState } from "react";
 import { baseUrl, Exercise, Workout } from "./Home";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
-import { useTheme } from "@mui/material";
+import {
+  CardActionArea,
+  CardMedia,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useTheme,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import CloseIcon from "@mui/icons-material/Close";
+import { format } from "date-fns";
 
 interface Data {
   exercise: Exercise;
-  date: string;
   weight: number;
   reps: number;
-  sets: number;
-  rpe: number | undefined;
+  allPersonalBests: { [key: number]: Workout };
 }
 
 interface ExercisesBoardProps {
@@ -29,9 +42,20 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
   const theme = useTheme();
   const maxWidth = props.maxWidth;
 
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [boardData, updateBoardData] = useState<Data[]>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState<null | Data>(null);
+
+  const handleCardClick = (exerciseData: Data) => {
+    setSelectedExercise(exerciseData);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedExercise(null);
+  };
+
   const userContext = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -62,19 +86,30 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
         );
 
         return Object.values(exercises).map((workouts) => {
-          const personalBest = workouts!.reduce((workout_a, workout_b) => {
-            return workout_a.weight >= workout_b.weight &&
-              new Date(workout_a.updated_at) < new Date(workout_b.updated_at)
-              ? workout_a
-              : workout_b;
-          });
+          const workoutsByReps: Partial<Record<number, Workout[]>> =
+            Object.groupBy(workouts!, (workout) => workout.reps);
+          const heaviestPersonalBest = workouts!.reduce(
+            (workout_a, workout_b) => {
+              return workout_a.weight >= workout_b.weight
+                ? workout_a
+                : workout_b;
+            },
+          );
+          const allPersonalBests = Object.fromEntries(
+            Object.entries(workoutsByReps).map(([reps, workouts]) => [
+              reps,
+              workouts!.reduce((workout_a, workout_b) => {
+                return workout_a.weight >= workout_b.weight
+                  ? workout_a
+                  : workout_b;
+              }),
+            ]),
+          );
           const tableRow = {
-            exercise: personalBest.exercise,
-            date: personalBest.updated_at,
-            weight: personalBest.weight,
-            reps: personalBest.reps,
-            sets: personalBest.sets,
-            rpe: personalBest.rpe,
+            exercise: heaviestPersonalBest.exercise,
+            weight: heaviestPersonalBest.weight,
+            reps: heaviestPersonalBest.reps,
+            allPersonalBests: allPersonalBests,
           };
           return tableRow;
         });
@@ -87,32 +122,6 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
     update();
   }, [userContext, props.workoutsModified]);
 
-  // const handleChangePage = (event: unknown, newPage: number) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - boardData.length) : 0;
-
-  // const visibleRows = React.useMemo(
-  //   () =>
-  //     [...boardData].slice(
-  //       page * rowsPerPage,
-  //       page * rowsPerPage + rowsPerPage,
-  //     ),
-  //   [page, rowsPerPage, boardData],
-  // );
-
-  console.log(maxWidth);
-
   return (
     <Paper sx={{ width: "100%" }}>
       <Grid
@@ -123,55 +132,122 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
         columns={{ xs: 2, sm: 6, md: 12 }}
         justifyContent="center"
       >
-        {boardData.map((personalBest) => (
-          <Grid size={{ xs: 2, sm: 3, md: 4 }} key={personalBest.exercise.id}>
+        {boardData.map((personalBests) => (
+          <Grid size={{ xs: 2, sm: 3, md: 4 }} key={personalBests.exercise.id}>
             <Card
+              onClick={() => handleCardClick(personalBests)}
               sx={{
-                bgcolor: theme.palette.grey[100],
+                bgcolor: theme.palette.primary.light,
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
               }}
             >
-              {/* <CardMedia
-            component="iframe"
-            height="120"
-            src={personalBest.exercise.video_link}
-            // title="Embedded Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          /> */}
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography align="left">
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{ color: theme.palette.primary.main }}
-                  >
-                    {personalBest.exercise.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    <Typography sx={{ color: "text.primary" }}>
-                      Weight: {personalBest.weight}kg
+              <CardActionArea>
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography align="left">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      sx={{ color: theme.palette.primary.main }}
+                    >
+                      {personalBests.exercise.name}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary" }}>
-                      <div>Reps: {personalBest.reps}</div>
-                      <div>Sets: {personalBest.sets}</div>
-                      {/* <div>
-                  Date: {format(new Date(personalBest.date), "yyyy-MM-dd")}
-                  </div> */}
+                    <Typography variant="body2">
+                      <Typography sx={{ color: "text.primary" }}>
+                        Weight: {personalBests.weight}kg
+                      </Typography>
+                      <Typography sx={{ color: "text.secondary" }}>
+                        <div>Reps: {personalBests.reps}</div>
+                      </Typography>
                     </Typography>
                   </Typography>
-                </Typography>
-              </CardContent>
-              {/* <CardActions>
-            <Button size="small">Video</Button>
-          </CardActions> */}
+                </CardContent>
+              </CardActionArea>
             </Card>
           </Grid>
         ))}
       </Grid>
+
+      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
+        <DialogTitle>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{ color: theme.palette.primary.main }}
+          >
+            {selectedExercise?.exercise.name} Personal Bests
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <Grid
+          container
+          maxWidth={maxWidth}
+          sx={{ padding: 2 }}
+          spacing={2}
+          justifyContent="center"
+        >
+          <TableContainer component={Paper}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Reps</TableCell>
+                  <TableCell>Weight</TableCell>
+                  <TableCell>Sets</TableCell>
+                  <TableCell>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {selectedExercise &&
+                  Object.entries(selectedExercise.allPersonalBests).map(
+                    ([reps, workout]) => (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {" "}
+                          {reps}{" "}
+                        </TableCell>
+                        <TableCell>{workout.weight}</TableCell>
+                        <TableCell>{workout.sets}</TableCell>
+                        <TableCell>
+                          {format(new Date(workout.updated_at), "yyyy-MM-dd")}
+                        </TableCell>
+                      </TableRow>
+                    ),
+                  )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <CardMedia
+            component="iframe"
+            src={selectedExercise?.exercise.video_link}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            sx={{
+              border: "0",
+              width: "100%",
+              height: "100%",
+              maxHeight: 600,
+              borderRadius: 2,
+            }}
+          />
+        </Grid>
+      </Dialog>
     </Paper>
   );
 }

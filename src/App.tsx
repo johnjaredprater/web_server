@@ -13,6 +13,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: teal[400],
+      light: teal[50],
     },
     secondary: {
       main: pink[500],
