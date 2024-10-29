@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/johnjaredprater/web_server/compare/v0.13.0...v0.14.0) (2024-10-29)
+
+
+### Features
+
+* simplify PB board ([ddaf1f1](https://github.com/johnjaredprater/web_server/commit/ddaf1f159357ecf7e2832f2eb3b7ac49827ec074))
+
 ## [0.13.0](https://github.com/johnjaredprater/web_server/compare/v0.12.3...v0.13.0) (2024-10-26)
 
 
