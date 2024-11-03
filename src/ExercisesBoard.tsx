@@ -123,21 +123,19 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
   }, [userContext, props.workoutsModified]);
 
   return (
-    <Paper sx={{ width: "100%" }}>
+    <div>
       <Grid
         container
         maxWidth={maxWidth}
-        sx={{ padding: 2 }}
         spacing={2}
-        columns={{ xs: 2, sm: 6, md: 12 }}
         justifyContent="center"
       >
         {boardData.map((personalBests) => (
-          <Grid size={{ xs: 2, sm: 3, md: 4 }} key={personalBests.exercise.id}>
+          <Grid
+          key={personalBests.exercise.id}>
             <Card
               onClick={() => handleCardClick(personalBests)}
               sx={{
-                bgcolor: theme.palette.primary.light,
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -170,14 +168,20 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
         ))}
       </Grid>
 
-      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="xs"
+        fullWidth
+        sx={{ "& .MuiDialog-paper": { maxHeight: "none", height: "auto" } }}
+      >
         <DialogTitle>
           <Typography
             variant="h5"
             component="div"
             sx={{ color: theme.palette.primary.main }}
           >
-            {selectedExercise?.exercise.name} Personal Bests
+            {selectedExercise?.exercise.name}
           </Typography>
           <IconButton
             aria-label="close"
@@ -224,8 +228,8 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
                         </TableCell>
                         <TableCell>{workout.weight}</TableCell>
                         <TableCell>{workout.sets}</TableCell>
-                        <TableCell>
-                          {format(new Date(workout.updated_at), "yyyy-MM-dd")}
+                        <TableCell sx={{ whiteSpace: "nowrap" }}>
+                          {format(new Date(workout.date), "yyyy-MM-dd")}
                         </TableCell>
                       </TableRow>
                     ),
@@ -248,6 +252,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
           />
         </Grid>
       </Dialog>
-    </Paper>
+    </div>
+    // </Paper>
   );
 }

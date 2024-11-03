@@ -136,10 +136,7 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell
-          // padding="checkbox"
-          padding="none"
-        >
+        <TableCell padding="none">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -154,7 +151,7 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="left" //{headCell.numeric ? "right" : "left"}
+            align="left"
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ whiteSpace: "nowrap" }}
@@ -299,7 +296,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
         return workouts.map((workout) => {
           const tableRow = {
             id: workout.id,
-            date: workout.updated_at,
+            date: workout.date,
             exercise: workout.exercise.name,
             weight: workout.weight,
             reps: workout.reps,

@@ -55,9 +55,9 @@ function ExercisesTable(props: ExerciseTableProps) {
       <Table sx={{ minWidth: pageWidth, maxWidth: pageWidth }} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Id</TableCell>
+            {/* <TableCell>Id</TableCell> */}
             <TableCell>Name</TableCell>
-            <TableCell>Video Link</TableCell>
+            <TableCell>Video</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,9 +69,9 @@ function ExercisesTable(props: ExerciseTableProps) {
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
               >
-                <TableCell component="th" scope="row">
+                {/* <TableCell component="th" scope="row">
                   {exercise.id}
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{exercise.name}</TableCell>
                 <TableCell>
                   <a

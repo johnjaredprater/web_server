@@ -32,7 +32,7 @@ export interface Workout {
   reps: number;
   weight: number;
   rpe?: number;
-  updated_at: string;
+  date: string;
 }
 
 function Home() {
@@ -78,11 +78,13 @@ function Home() {
               </SvgIcon>
               GymTrack
             </Typography>
-            <Tooltip
-              id="version-tooltip"
-              style={{ display: "inline-block", zIndex: 1 }}
-              place="left"
-            />
+            <Typography variant="subtitle2">
+              <Tooltip
+                id="version-tooltip"
+                style={{ display: "inline-block", zIndex: 1 }}
+                place="left"
+              />
+            </Typography>
           </Grid>
           <Grid size={5}>
             <Box
@@ -157,6 +159,7 @@ function Home() {
             <Tab label="Workouts" sx={{ fontSize: "medium" }} />
             <Tab label="Personal Bests" sx={{ fontSize: "medium" }} />
             <Tab label="Exercises" sx={{ fontSize: "medium" }} />
+            {/* <Tab label="About" sx={{ fontSize: "medium" }} /> */}
           </Tabs>
         </Grid>
       </header>
@@ -201,8 +204,17 @@ function Home() {
           </div>
         )}
 
+        {/* {tab_index === 2 && (
+          <Typography variant="body2" marginTop={2} align="left">
+            So...
+         </Typography>
+        )} */}
+
         {tab_index === 2 && (
           <div>
+            <Typography variant="body1" marginTop={2} align="left" gutterBottom>
+              The following exercies are currently supported:
+            </Typography>
             <ExercisesTable maxWidth={pageWidth} />
           </div>
         )}
