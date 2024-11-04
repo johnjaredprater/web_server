@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/johnjaredprater/web_server/compare/v0.15.0...v1.0.0) (2024-11-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove exercises tab and add an about tab
+
+### Features
+
+* remove exercises tab and add an about tab ([f8dbd49](https://github.com/johnjaredprater/web_server/commit/f8dbd49f5158c23d7fe0761aa9bc528e5ebf7904))
+
 ## [0.15.0](https://github.com/johnjaredprater/web_server/compare/v0.14.1...v0.15.0) (2024-11-04)
 
 
