@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.1](https://github.com/johnjaredprater/web_server/compare/v0.14.0...v0.14.1) (2024-11-04)
+
+
+### Bug Fixes
+
+* fix alignment and pb cards, use date rather than updated_at ([c16e1c5](https://github.com/johnjaredprater/web_server/commit/c16e1c5dc3cb822bf26cbe6614536aa961f60c1f))
+
 ## [0.14.0](https://github.com/johnjaredprater/web_server/compare/v0.13.0...v0.14.0) (2024-10-29)
 
 
