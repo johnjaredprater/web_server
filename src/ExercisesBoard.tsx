@@ -123,16 +123,10 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
   }, [userContext, props.workoutsModified]);
 
   return (
-    <div>
-      <Grid
-        container
-        maxWidth={maxWidth}
-        spacing={2}
-        justifyContent="center"
-      >
+    <>
+      <Grid container maxWidth={maxWidth} spacing={2} justifyContent="center">
         {boardData.map((personalBests) => (
-          <Grid
-          key={personalBests.exercise.id}>
+          <Grid key={personalBests.exercise.id}>
             <Card
               onClick={() => handleCardClick(personalBests)}
               sx={{
@@ -252,7 +246,6 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
           />
         </Grid>
       </Dialog>
-    </div>
-    // </Paper>
+    </>
   );
 }

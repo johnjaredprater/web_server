@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { CurrentUserContext } from "./App";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import Grid from "@mui/material/Grid2";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -12,6 +13,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { baseUrl, Exercise } from "./Home";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
 interface WorkoutForm {
   exercise_name: string;
@@ -19,6 +25,7 @@ interface WorkoutForm {
   reps: string;
   weight: string;
   rpe?: string;
+  date?: string;
 }
 
 type WorkoutInputProps = {
@@ -168,6 +175,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               reps: formData.reps,
               sets: formData.sets,
               rpe: formData.rpe,
+              date: dayjs(formData.date).format(),
             },
             {
               headers: {
@@ -194,7 +202,6 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
         sets: "",
         reps: "",
         weight: "",
-        rpe: "",
       });
     };
 
@@ -214,72 +221,99 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
           >
             <Typography variant="h6">Add Workout</Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <Box
+          <AccordionDetails sx={{ padding: 1 }}>
+            <Grid
+              container
+              justifyContent="center"
               component="form"
               sx={{ "& .MuiTextField-root": { m: 1, width: "90%" } }}
+              columnSpacing={1}
+              rowSpacing={1}
+              columns={{ xs: 2, sm: 4, md: 8 }}
               onSubmit={handleSubmit}
               autoComplete="off"
             >
-              <Autocomplete
-                disablePortal
-                options={exercises.map((exercise) => exercise.name)}
-                renderInput={(params) => (
-                  <TextField {...params} required label="Exercise" />
-                )}
-                value={formData.exercise_name}
-                onChange={handleExerciseChange}
-              />
-              <NumberInputField
-                required
-                id="weight"
-                label="Weight"
-                value={formData.weight}
-                formData={formData}
-                setFormData={setFormData}
-                min={-1000}
-                max={10000}
-                adornment="kg"
-              />
-              <NumberInputField
-                required
-                validateAsInt
-                id="reps"
-                label="Reps"
-                value={formData.reps}
-                formData={formData}
-                setFormData={setFormData}
-                min={0}
-                max={10000}
-              />
-              <NumberInputField
-                required
-                validateAsInt
-                id="sets"
-                label="Sets"
-                value={formData.sets}
-                formData={formData}
-                setFormData={setFormData}
-                min={0}
-                max={10000}
-              />
-              <NumberInputField
-                validateAsInt
-                id="rpe"
-                label="RPE"
-                value={formData.rpe}
-                formData={formData}
-                setFormData={setFormData}
-                min={0}
-                max={10}
-                adornment="/10"
-              />
+              <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                <Autocomplete
+                  disablePortal
+                  options={exercises.map((exercise) => exercise.name)}
+                  renderInput={(params) => (
+                    <TextField {...params} required label="Exercise" />
+                  )}
+                  value={formData.exercise_name}
+                  onChange={handleExerciseChange}
+                />
+              </Grid>
+              <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date"
+                    value={formData.date ? dayjs(formData.date) : null}
+                    onChange={(newValue) => {
+                      setFormData({ ...formData, date: newValue?.toString() });
+                    }}
+                    format="YYYY-MM-DD"
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid size={{ xs: 2, sm: 4, md: 4 }} sx={{ padding: "none" }}>
+                <NumberInputField
+                  required
+                  id="weight"
+                  label="Weight"
+                  value={formData.weight}
+                  formData={formData}
+                  setFormData={setFormData}
+                  min={-1000}
+                  max={10000}
+                  adornment="kg"
+                />
+              </Grid>
+              <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                <NumberInputField
+                  required
+                  validateAsInt
+                  id="reps"
+                  label="Reps"
+                  value={formData.reps}
+                  formData={formData}
+                  setFormData={setFormData}
+                  min={0}
+                  max={10000}
+                />
+              </Grid>
+              <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                <NumberInputField
+                  required
+                  validateAsInt
+                  id="sets"
+                  label="Sets"
+                  value={formData.sets}
+                  formData={formData}
+                  setFormData={setFormData}
+                  min={0}
+                  max={10000}
+                />
+              </Grid>
+              <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                <NumberInputField
+                  validateAsInt
+                  id="rpe"
+                  label="RPE"
+                  value={formData.rpe}
+                  formData={formData}
+                  setFormData={setFormData}
+                  min={0}
+                  max={10}
+                  adornment="/10"
+                />
+              </Grid>
               <div>
                 <Button type="submit" color="primary">
                   Submit
                 </Button>
               </div>
-            </Box>
+            </Grid>
           </AccordionDetails>
         </Accordion>
       </div>
