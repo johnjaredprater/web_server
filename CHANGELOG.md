@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/johnjaredprater/web_server/compare/v0.14.1...v0.15.0) (2024-11-04)
+
+
+### Features
+
+* allow setting the date of a workout ([0a9f89d](https://github.com/johnjaredprater/web_server/commit/0a9f89dc41eeb4f71cc9024ff6037eab44962cb0))
+
 ## [0.14.1](https://github.com/johnjaredprater/web_server/compare/v0.14.0...v0.14.1) (2024-11-04)
 
 
