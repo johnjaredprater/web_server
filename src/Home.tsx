@@ -12,8 +12,8 @@ import React from "react";
 import WorkoutTable from "./WorkoutTable";
 
 import { useTheme } from "@mui/material/styles";
-import ExercisesTable from "./ExercisesTable";
 import ExercisesBoard from "./ExercisesBoard";
+import About from "./About";
 
 export const baseUrl = "https://gym.johnprater.me";
 // export const baseUrl = "http://localhost:8000";
@@ -155,11 +155,14 @@ function Home() {
             onChange={handleChange}
             sx={{ borderBottom: 1, borderColor: "divider" }}
             centered
+            variant="scrollable"
+            scrollButtons="auto"
+            allowScrollButtonsMobile
           >
             <Tab label="Workouts" sx={{ fontSize: "medium" }} />
             <Tab label="Personal Bests" sx={{ fontSize: "medium" }} />
-            <Tab label="Exercises" sx={{ fontSize: "medium" }} />
-            {/* <Tab label="About" sx={{ fontSize: "medium" }} /> */}
+            {/* <Tab label="Exercises" sx={{ fontSize: "medium" }} /> */}
+            <Tab label="About" sx={{ fontSize: "medium" }} />
           </Tabs>
         </Grid>
       </header>
@@ -205,28 +208,20 @@ function Home() {
         )}
 
         {/* {tab_index === 2 && (
-          <Typography variant="body2" marginTop={2} align="left">
-            So...
-         </Typography>
-        )} */}
-
-        {tab_index === 2 && (
           <div>
             <Typography variant="body1" marginTop={2} align="left" gutterBottom>
               The following exercies are currently supported:
             </Typography>
             <ExercisesTable maxWidth={pageWidth} />
           </div>
+        )} */}
+
+        {tab_index === 2 && (
+          <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
+            <About />
+          </Grid>
         )}
       </main>
-
-      {/* <footer className="App-footer">
-        <Grid container sx={{ width: "100%", maxWidth: pageWidth }} spacing={2}>
-          <Typography variant="body2" marginTop={2} align="left">
-            version {}
-          </Typography>
-        </Grid>
-      </footer> */}
     </>
   );
 }

@@ -5,6 +5,9 @@ import { auth } from "./firebase/Auth";
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { SvgIcon, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+
+import About from "../About";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,6 +55,14 @@ const Login = () => {
 
             <p> {errorMessage} </p>
           </div>
+
+          <Grid
+            container
+            sx={{ width: "100%", maxWidth: 400 }}
+            alignSelf="center"
+          >
+            <About />
+          </Grid>
         </section>
       </main>
     </>
