@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/johnjaredprater/web_server/compare/v1.0.0...v1.1.0) (2024-12-14)
+
+
+### Features
+
+* use a HD icon ([ff5f7fa](https://github.com/johnjaredprater/web_server/commit/ff5f7fad797d0d24934fa0f076866e007cf0af0b))
+
 ## [1.0.0](https://github.com/johnjaredprater/web_server/compare/v0.15.0...v1.0.0) (2024-11-04)
 
 
