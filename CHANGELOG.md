@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/johnjaredprater/web_server/compare/v1.1.0...v1.1.1) (2024-12-15)
+
+
+### Bug Fixes
+
+* update description to refer to Digital Ocean instead of AWS ([5afdadb](https://github.com/johnjaredprater/web_server/commit/5afdadb279f06115eb5eb990b15d4f519f1f4bb1))
+
 ## [1.1.0](https://github.com/johnjaredprater/web_server/compare/v1.0.0...v1.1.0) (2024-12-14)
 
 
