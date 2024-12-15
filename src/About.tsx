@@ -37,9 +37,9 @@ function About() {
           uses Litestar and is written in Python.
         </div>
         <div>
-          • The components are deployed on an EKS cluster in AWS, along with an
-          RDS database. The infrastructure is defined in code and is managed
-          from{" "}
+          • The components are deployed on a Digital Ocean Kubernetes Cluster,
+          along with a MySQL database cluster. The infrastructure is defined in
+          code and is managed from{" "}
           <Link
             href="https://github.com/johnjaredprater/infrastructure"
             target="_blank"
