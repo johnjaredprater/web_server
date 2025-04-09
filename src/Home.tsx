@@ -15,8 +15,8 @@ import { useTheme } from "@mui/material/styles";
 import ExercisesBoard from "./ExercisesBoard";
 import About from "./About";
 
-export const baseUrl = "https://gym.johnprater.me";
-// export const baseUrl = "http://localhost:8000";
+// export const baseUrl = "https://gym.johnprater.me";
+export const baseUrl = "http://localhost:8000";
 
 export interface Exercise {
   id: number;
@@ -48,7 +48,6 @@ function Home() {
   const pageWidth = windowWidth >= 660 ? 600 : windowWidth - 60;
 
   const userContext = useContext(CurrentUserContext);
-  console.log(userContext?.user);
 
   const [workoutsModified, incrementWorkoutsModified] = useState(0);
 
@@ -154,7 +153,6 @@ function Home() {
             value={tab_index}
             onChange={handleChange}
             sx={{ borderBottom: 1, borderColor: "divider" }}
-            centered
             variant="scrollable"
             scrollButtons="auto"
             allowScrollButtonsMobile

@@ -93,7 +93,6 @@ const NumberInputField: React.FC<NumberInputFieldProps> = ({
       onChange={handleChange}
       slotProps={{
         input: {
-          inputProps: { min: min, max: max },
           endAdornment: (
             <InputAdornment position="end">{adornment}</InputAdornment>
           ),
@@ -259,6 +258,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               <Grid size={{ xs: 2, sm: 4, md: 4 }} sx={{ padding: "none" }}>
                 <NumberInputField
                   required
+                  validateAsInt={false}
                   id="weight"
                   label="Weight"
                   value={formData.weight}
@@ -272,7 +272,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               <Grid size={{ xs: 2, sm: 4, md: 4 }}>
                 <NumberInputField
                   required
-                  validateAsInt
+                  validateAsInt={true}
                   id="reps"
                   label="Reps"
                   value={formData.reps}
@@ -285,7 +285,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               <Grid size={{ xs: 2, sm: 4, md: 4 }}>
                 <NumberInputField
                   required
-                  validateAsInt
+                  validateAsInt={true}
                   id="sets"
                   label="Sets"
                   value={formData.sets}
@@ -297,7 +297,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               </Grid>
               <Grid size={{ xs: 2, sm: 4, md: 4 }}>
                 <NumberInputField
-                  validateAsInt
+                  validateAsInt={true}
                   id="rpe"
                   label="RPE"
                   value={formData.rpe}
