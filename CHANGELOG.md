@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/johnjaredprater/web_server/compare/v1.1.2...v1.1.3) (2025-04-09)
+
+
+### Bug Fixes
+
+* use the right backend ([af2a3dd](https://github.com/johnjaredprater/web_server/commit/af2a3dd004a77a1646034397705b64b522fef780))
+
 ## [1.1.2](https://github.com/johnjaredprater/web_server/compare/v1.1.1...v1.1.2) (2025-04-09)
 
 
