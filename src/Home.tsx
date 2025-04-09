@@ -15,8 +15,8 @@ import { useTheme } from "@mui/material/styles";
 import ExercisesBoard from "./ExercisesBoard";
 import About from "./About";
 
-// export const baseUrl = "https://gym.johnprater.me";
-export const baseUrl = "http://localhost:8000";
+export const baseUrl = "https://gym.johnprater.me";
+// export const baseUrl = "http://localhost:8000";
 
 export interface Exercise {
   id: number;
