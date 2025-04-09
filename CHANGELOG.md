@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/johnjaredprater/web_server/compare/v1.1.1...v1.1.2) (2025-04-09)
+
+
+### Bug Fixes
+
+* allow float weights ([ac8684e](https://github.com/johnjaredprater/web_server/commit/ac8684e16448790d7f873e17ef28629fb3c5481e))
+
 ## [1.1.1](https://github.com/johnjaredprater/web_server/compare/v1.1.0...v1.1.1) (2024-12-15)
 
 
