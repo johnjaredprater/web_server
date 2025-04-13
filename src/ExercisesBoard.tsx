@@ -8,22 +8,26 @@ import { baseUrl, Exercise, Workout } from "./Home";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
 import {
+  Box,
   CardActionArea,
   CardMedia,
   Dialog,
   DialogTitle,
   IconButton,
+  InputAdornment,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   useTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface Data {
   exercise: Exercise;
@@ -43,6 +47,11 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
   const maxWidth = props.maxWidth;
 
   const [boardData, updateBoardData] = useState<Data[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Data[]>(boardData);
+
+  // State for the search term
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [open, setOpen] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState<null | Data>(null);
 
@@ -122,10 +131,62 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
     update();
   }, [userContext, props.workoutsModified]);
 
+  useEffect(() => {
+    if (!searchTerm) {
+      // If search is empty, show all items
+      setFilteredItems(boardData);
+      return;
+    }
+
+    // Filter items based on search term
+    const filtered = boardData.filter((item) =>
+      item.exercise.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+
+    setFilteredItems(filtered);
+  }, [boardData, searchTerm]);
+
+  // Handle search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <>
+      {/* Search control */}
+      <Box
+        sx={{ mb: 2, display: "flex", justifyContent: "center", width: "100%" }}
+      >
+        <TextField
+          hiddenLabel
+          // variant="filled"
+          variant="outlined"
+          size="small"
+          sx={{
+            "& .MuiInputBase-input": {
+              color: "white",
+            },
+            "& .MuiInputBase-input::placeholder": {
+              color: "#777",
+              opacity: 1,
+            },
+          }}
+          margin="dense"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search by name..."
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "grey" }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
       <Grid container maxWidth={maxWidth} spacing={2} justifyContent="center">
-        {boardData.map((personalBests) => (
+        {filteredItems.map((personalBests) => (
           <Grid key={personalBests.exercise.id}>
             <Card
               onClick={() => handleCardClick(personalBests)}
