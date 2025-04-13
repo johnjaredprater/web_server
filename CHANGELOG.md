@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/johnjaredprater/web_server/compare/v1.1.3...v1.2.0) (2025-04-13)
+
+
+### Features
+
+* allow searching personal bests ([deda261](https://github.com/johnjaredprater/web_server/commit/deda26196fb559821d4a932543a34f6de6249e0f))
+
 ## [1.1.3](https://github.com/johnjaredprater/web_server/compare/v1.1.2...v1.1.3) (2025-04-09)
 
 
