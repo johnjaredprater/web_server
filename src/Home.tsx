@@ -15,8 +15,15 @@ import { useTheme } from "@mui/material/styles";
 import ExercisesBoard from "./ExercisesBoard";
 import About from "./About";
 
-export const baseUrl = "https://gym.johnprater.me";
-// export const baseUrl = "http://localhost:8000";
+export function isRunningLocally() {
+  const hostname = window.location.hostname;
+  return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+export let baseUrl = "https://gym.johnprater.me";
+if (isRunningLocally()) {
+  baseUrl = "http://localhost:8000";
+}
 
 export interface Exercise {
   id: number;

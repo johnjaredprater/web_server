@@ -4,7 +4,7 @@ import { auth } from "./auth/firebase/Auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { BrowserRouter, Navigate, useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Home";
+import Home, { isRunningLocally } from "./Home";
 import Login from "./auth/Login";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { teal, pink } from "@mui/material/colors";
@@ -59,6 +59,9 @@ function CurrentUserContextProvider({
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (isRunningLocally()) {
+        console.log(user); // Useful for debugging
+      }
       setUser(user);
     });
 
