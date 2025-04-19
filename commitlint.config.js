@@ -3,6 +3,10 @@ module.exports = {
   rules: {
     //   TODO Add Scope Enum Here
     // 'scope-enum': [2, 'always', ['yourscope', 'yourscope']],
+    'subject-case': [0, 'never'],
+    'header-case': [0, 'never'],
+    'scope-case': [0, 'never'],
+    'type-case': [0, 'never'],
     "type-enum": [
       2,
       "always",

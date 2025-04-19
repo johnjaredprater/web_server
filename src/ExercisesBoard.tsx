@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { useContext, useEffect, useState } from "react";
-import { baseUrl, Exercise, Workout } from "./Home";
+import { baseUrl, Exercise, ExerciseResult } from "./Home";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
 import {
@@ -33,13 +33,15 @@ interface Data {
   exercise: Exercise;
   weight: number;
   reps: number;
-  allPersonalBests: { [key: number]: Workout };
+  allPersonalBests: { [key: number]: ExerciseResult };
 }
 
 interface ExercisesBoardProps {
   maxWidth: number;
-  workoutsModified: number;
-  incrementWorkoutsModified: React.Dispatch<React.SetStateAction<number>>;
+  exerciseResultsModified: number;
+  incrementExerciseResultsModified: React.Dispatch<
+    React.SetStateAction<number>
+  >;
 }
 
 export default function ExercisesBoard(props: ExercisesBoardProps) {
@@ -71,7 +73,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
     const getBoardData = async () => {
       const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        .get(`${baseUrl}/api/workouts`, {
+        .get(`${baseUrl}/api/exercise_results`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -87,32 +89,38 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
           console.log(error.config);
         });
       if (response) {
-        const workouts: Workout[] = response.data;
+        const exercise_results: ExerciseResult[] = response.data;
 
-        const exercises: Partial<Record<number, Workout[]>> = Object.groupBy(
-          workouts,
-          ({ exercise }) => exercise.id,
-        );
+        const exercises: Partial<Record<number, ExerciseResult[]>> =
+          Object.groupBy(exercise_results, ({ exercise }) => exercise.id);
 
-        return Object.values(exercises).map((workouts) => {
-          const workoutsByReps: Partial<Record<number, Workout[]>> =
-            Object.groupBy(workouts!, (workout) => workout.reps);
-          const heaviestPersonalBest = workouts!.reduce(
-            (workout_a, workout_b) => {
-              return workout_a.weight >= workout_b.weight
-                ? workout_a
-                : workout_b;
+        return Object.values(exercises).map((exercise_results) => {
+          const exerciseResultsByReps: Partial<
+            Record<number, ExerciseResult[]>
+          > = Object.groupBy(
+            exercise_results!,
+            (exercise_result) => exercise_result.reps,
+          );
+          const heaviestPersonalBest = exercise_results!.reduce(
+            (exercise_result_a, exercise_result_b) => {
+              return exercise_result_a.weight >= exercise_result_b.weight
+                ? exercise_result_a
+                : exercise_result_b;
             },
           );
           const allPersonalBests = Object.fromEntries(
-            Object.entries(workoutsByReps).map(([reps, workouts]) => [
-              reps,
-              workouts!.reduce((workout_a, workout_b) => {
-                return workout_a.weight >= workout_b.weight
-                  ? workout_a
-                  : workout_b;
-              }),
-            ]),
+            Object.entries(exerciseResultsByReps).map(
+              ([reps, exercise_results]) => [
+                reps,
+                exercise_results!.reduce(
+                  (exercise_result_a, exercise_result_b) => {
+                    return exercise_result_a.weight >= exercise_result_b.weight
+                      ? exercise_result_a
+                      : exercise_result_b;
+                  },
+                ),
+              ],
+            ),
           );
           const tableRow = {
             exercise: heaviestPersonalBest.exercise,
@@ -129,7 +137,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
       updateBoardData(await getBoardData());
     };
     update();
-  }, [userContext, props.workoutsModified]);
+  }, [userContext, props.exerciseResultsModified]);
 
   useEffect(() => {
     if (!searchTerm) {
@@ -271,7 +279,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
               <TableBody>
                 {selectedExercise &&
                   Object.entries(selectedExercise.allPersonalBests).map(
-                    ([reps, workout]) => (
+                    ([reps, exercise_result]) => (
                       <TableRow
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
@@ -281,10 +289,10 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
                           {" "}
                           {reps}{" "}
                         </TableCell>
-                        <TableCell>{workout.weight}</TableCell>
-                        <TableCell>{workout.sets}</TableCell>
+                        <TableCell>{exercise_result.weight}</TableCell>
+                        <TableCell>{exercise_result.sets}</TableCell>
                         <TableCell sx={{ whiteSpace: "nowrap" }}>
-                          {format(new Date(workout.date), "yyyy-MM-dd")}
+                          {format(new Date(exercise_result.date), "yyyy-MM-dd")}
                         </TableCell>
                       </TableRow>
                     ),
