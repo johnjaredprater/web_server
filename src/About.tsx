@@ -10,7 +10,8 @@ function About() {
         sx={{ margin: 2, fontStyle: "italic" }}
       >
         <div>
-          This project allows users to log workouts and track personal bests.
+          This project allows users to log exercise results and track personal
+          bests.
         </div>
       </Typography>
       <Typography variant="body1" marginTop={2} align="left" sx={{ margin: 2 }}>

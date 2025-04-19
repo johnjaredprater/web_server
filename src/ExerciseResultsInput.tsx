@@ -19,7 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 
-interface WorkoutForm {
+interface ExerciseResultForm {
   exercise_name: string;
   sets: string;
   reps: string;
@@ -28,18 +28,20 @@ interface WorkoutForm {
   date?: string;
 }
 
-type WorkoutInputProps = {
+type ExerciseResultInputProps = {
   maxWidth: number;
-  workoutsModified: number;
-  incrementWorkoutsModified: React.Dispatch<React.SetStateAction<number>>;
+  exerciseResultsModified: number;
+  incrementExerciseResultsModified: React.Dispatch<
+    React.SetStateAction<number>
+  >;
 };
 
 type NumberInputFieldProps = {
   id: string;
   label: string;
   value: string | undefined;
-  formData: WorkoutForm;
-  setFormData: React.Dispatch<React.SetStateAction<WorkoutForm>>;
+  formData: ExerciseResultForm;
+  setFormData: React.Dispatch<React.SetStateAction<ExerciseResultForm>>;
   min: number;
   max: number;
   validateAsInt?: boolean;
@@ -61,7 +63,7 @@ const NumberInputField: React.FC<NumberInputFieldProps> = ({
 }) => {
   const handleChange = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target as {
-      name: keyof WorkoutForm;
+      name: keyof ExerciseResultForm;
       value: string;
     };
     if (value === "") {
@@ -102,10 +104,10 @@ const NumberInputField: React.FC<NumberInputFieldProps> = ({
   );
 };
 
-const WorkoutInput: React.FC<WorkoutInputProps> = ({
+const ExerciseResultInput: React.FC<ExerciseResultInputProps> = ({
   maxWidth,
-  workoutsModified,
-  incrementWorkoutsModified,
+  exerciseResultsModified,
+  incrementExerciseResultsModified,
 }) => {
   const userContext = useContext(CurrentUserContext);
 
@@ -142,7 +144,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
   };
 
   const InputAccordion: React.FC<InputAccordionProps> = ({ exercises }) => {
-    const [formData, setFormData] = useState<WorkoutForm>({
+    const [formData, setFormData] = useState<ExerciseResultForm>({
       exercise_name: "",
       sets: "",
       reps: "",
@@ -167,7 +169,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
       if (exercise) {
         await axios
           .post(
-            `${baseUrl}/api/workouts`,
+            `${baseUrl}/api/exercise_results`,
             {
               exercise_id: exercise.id,
               weight: formData.weight,
@@ -195,7 +197,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
           });
       }
 
-      incrementWorkoutsModified(workoutsModified + 1);
+      incrementExerciseResultsModified(exerciseResultsModified + 1);
       setFormData({
         exercise_name: "",
         sets: "",
@@ -218,7 +220,7 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
               "& .MuiAccordionSummary-content": { justifyContent: "center" },
             }}
           >
-            <Typography variant="h6">Add Workout</Typography>
+            <Typography variant="h6">Add Exercise Result</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 1 }}>
             <Grid
@@ -327,4 +329,4 @@ const WorkoutInput: React.FC<WorkoutInputProps> = ({
   );
 };
 
-export default WorkoutInput;
+export default ExerciseResultInput;

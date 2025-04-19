@@ -18,7 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { useContext, useEffect, useState } from "react";
-import { baseUrl, Workout } from "./Home";
+import { baseUrl, ExerciseResult } from "./Home";
 import { format } from "date-fns";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
@@ -143,7 +143,7 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all workouts",
+              "aria-label": "select all exercise results",
             }}
             size="small"
           />
@@ -177,8 +177,10 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
 interface EnhancedTableToolbarProps {
   selected: readonly string[];
   setSelected: React.Dispatch<React.SetStateAction<readonly string[]>>;
-  workoutsModified: number;
-  incrementWorkoutsModified: React.Dispatch<React.SetStateAction<number>>;
+  exerciseResultsModified: number;
+  incrementExerciseResultsModified: React.Dispatch<
+    React.SetStateAction<number>
+  >;
 }
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { selected, setSelected } = props;
@@ -187,9 +189,9 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const handleDelete = async () => {
     const accessToken = await userContext?.user?.getIdToken();
     const promises = selected.map(async (tableRow) => {
-      console.log(`Deleting Workout ${tableRow}`);
+      console.log(`Deleting ExerciseResult ${tableRow}`);
       await axios
-        .delete(`${baseUrl}/api/workouts/${tableRow}`, {
+        .delete(`${baseUrl}/api/exercise_results/${tableRow}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -209,7 +211,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
     setSelected([]);
 
-    props.incrementWorkoutsModified(props.workoutsModified + 1);
+    props.incrementExerciseResultsModified(props.exerciseResultsModified + 1);
   };
 
   return (
@@ -244,7 +246,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Workouts
+          Exercise Results
         </Typography>
       )}
       {selected.length > 0 ? (
@@ -259,11 +261,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 
 interface EnhancedTableProps {
-  workoutsModified: number;
-  incrementWorkoutsModified: React.Dispatch<React.SetStateAction<number>>;
+  exerciseResultsModified: number;
+  incrementExerciseResultsModified: React.Dispatch<
+    React.SetStateAction<number>
+  >;
 }
 
-export default function WorkoutTable(props: EnhancedTableProps) {
+export default function ExerciseResultTable(props: EnhancedTableProps) {
   const [order, setOrder] = React.useState<Order>("desc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("date");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -276,7 +280,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
     const getTableData = async () => {
       const accessToken = await userContext?.user?.getIdToken();
       const response = await axios
-        .get(`${baseUrl}/api/workouts`, {
+        .get(`${baseUrl}/api/exercise_results`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -292,16 +296,16 @@ export default function WorkoutTable(props: EnhancedTableProps) {
           console.log(error.config);
         });
       if (response) {
-        const workouts: Workout[] = response.data;
-        return workouts.map((workout) => {
+        const exerciseResults: ExerciseResult[] = response.data;
+        return exerciseResults.map((exerciseResult) => {
           const tableRow = {
-            id: workout.id,
-            date: workout.date,
-            exercise: workout.exercise.name,
-            weight: workout.weight,
-            reps: workout.reps,
-            sets: workout.sets,
-            rpe: workout.rpe,
+            id: exerciseResult.id,
+            date: exerciseResult.date,
+            exercise: exerciseResult.exercise.name,
+            weight: exerciseResult.weight,
+            reps: exerciseResult.reps,
+            sets: exerciseResult.sets,
+            rpe: exerciseResult.rpe,
           };
           return tableRow;
         });
@@ -312,7 +316,7 @@ export default function WorkoutTable(props: EnhancedTableProps) {
       updateTableData(await getTableData());
     };
     update();
-  }, [userContext, props.workoutsModified]);
+  }, [userContext, props.exerciseResultsModified]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -379,8 +383,10 @@ export default function WorkoutTable(props: EnhancedTableProps) {
       <EnhancedTableToolbar
         selected={selected}
         setSelected={setSelected}
-        workoutsModified={props.workoutsModified}
-        incrementWorkoutsModified={props.incrementWorkoutsModified}
+        exerciseResultsModified={props.exerciseResultsModified}
+        incrementExerciseResultsModified={
+          props.incrementExerciseResultsModified
+        }
       />
       <TableContainer>
         <Table aria-labelledby="tableTitle" size={"small"} padding="none">

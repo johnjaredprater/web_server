@@ -7,9 +7,9 @@ import { Avatar, Box, SvgIcon, Tab, Tabs, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { Tooltip } from "react-tooltip";
-import WorkoutInput from "./WorkoutInput";
+import ExerciseResultInput from "./ExerciseResultsInput";
 import React from "react";
-import WorkoutTable from "./WorkoutTable";
+import ExerciseResultTable from "./ExerciseResultTable";
 
 import { useTheme } from "@mui/material/styles";
 import ExercisesBoard from "./ExercisesBoard";
@@ -31,7 +31,7 @@ export interface Exercise {
   video_link?: string;
 }
 
-export interface Workout {
+export interface ExerciseResult {
   id: string;
   exercise_id: number;
   exercise: Exercise;
@@ -56,7 +56,8 @@ function Home() {
 
   const userContext = useContext(CurrentUserContext);
 
-  const [workoutsModified, incrementWorkoutsModified] = useState(0);
+  const [exerciseResultsModified, incrementExerciseResultsModified] =
+    useState(0);
 
   const [tab_index, setValue] = React.useState(0);
 
@@ -164,10 +165,10 @@ function Home() {
             scrollButtons="auto"
             allowScrollButtonsMobile
           >
-            <Tab label="Workouts" sx={{ fontSize: "medium" }} />
-            <Tab label="Personal Bests" sx={{ fontSize: "medium" }} />
-            {/* <Tab label="Exercises" sx={{ fontSize: "medium" }} /> */}
-            <Tab label="About" sx={{ fontSize: "medium" }} />
+            <Tab label="Exercise Results" sx={{ fontSize: "large" }} />
+            <Tab label="Personal Bests" sx={{ fontSize: "large" }} />
+            {/* <Tab label="Exercises" sx={{ fontSize: "large" }} /> */}
+            <Tab label="About" sx={{ fontSize: "large" }} />
           </Tabs>
         </Grid>
       </header>
@@ -180,11 +181,13 @@ function Home() {
               sx={{ width: "100%", justifyContent: "center" }}
               marginBottom={2}
             >
-              <WorkoutInput
+              <ExerciseResultInput
                 maxWidth={pageWidth}
-                workoutsModified={workoutsModified}
-                incrementWorkoutsModified={incrementWorkoutsModified}
-              ></WorkoutInput>
+                exerciseResultsModified={exerciseResultsModified}
+                incrementExerciseResultsModified={
+                  incrementExerciseResultsModified
+                }
+              ></ExerciseResultInput>
             </Grid>
             <Box
               sx={{
@@ -194,9 +197,11 @@ function Home() {
                 overflowX: "auto",
               }}
             >
-              <WorkoutTable
-                workoutsModified={workoutsModified}
-                incrementWorkoutsModified={incrementWorkoutsModified}
+              <ExerciseResultTable
+                exerciseResultsModified={exerciseResultsModified}
+                incrementExerciseResultsModified={
+                  incrementExerciseResultsModified
+                }
               />
             </Box>
           </div>
@@ -206,8 +211,10 @@ function Home() {
           <div>
             <ExercisesBoard
               maxWidth={pageWidth}
-              workoutsModified={workoutsModified}
-              incrementWorkoutsModified={incrementWorkoutsModified}
+              exerciseResultsModified={exerciseResultsModified}
+              incrementExerciseResultsModified={
+                incrementExerciseResultsModified
+              }
             />
           </div>
         )}
