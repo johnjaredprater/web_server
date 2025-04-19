@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/johnjaredprater/web_server/compare/v1.2.0...v1.3.0) (2025-04-19)
+
+
+### Features
+
+* Rename Workouts to Exercise Results ([96baaf4](https://github.com/johnjaredprater/web_server/commit/96baaf47528fe3e1bd513ace612a35e46b868bea))
+
 ## [1.2.0](https://github.com/johnjaredprater/web_server/compare/v1.1.3...v1.2.0) (2025-04-13)
 
 
