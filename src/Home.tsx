@@ -10,10 +10,13 @@ import { Tooltip } from "react-tooltip";
 import ExerciseResultInput from "./ExerciseResultsInput";
 import React from "react";
 import ExerciseResultTable from "./ExerciseResultTable";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 import { useTheme } from "@mui/material/styles";
 import ExercisesBoard from "./ExercisesBoard";
 import About from "./About";
+import WeekPlanBoard from "./WeekPlanBoard";
+import { DataStoreProvider } from "./DataStoreContext";
 
 export function isRunningLocally() {
   const hostname = window.location.hostname;
@@ -160,80 +163,94 @@ function Home() {
           <Tabs
             value={tab_index}
             onChange={handleChange}
-            sx={{ borderBottom: 1, borderColor: "divider" }}
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              maxWidth: pageWidth,
+            }}
             variant="scrollable"
             scrollButtons="auto"
             allowScrollButtonsMobile
           >
-            <Tab label="Exercise Results" sx={{ fontSize: "large" }} />
-            <Tab label="Personal Bests" sx={{ fontSize: "large" }} />
-            {/* <Tab label="Exercises" sx={{ fontSize: "large" }} /> */}
-            <Tab label="About" sx={{ fontSize: "large" }} />
+            <Tab
+              label="Results"
+              sx={{ fontSize: "large", paddingVertical: 1 }}
+            />
+            <Tab
+              label="Personal Bests"
+              sx={{ fontSize: "large", paddingVertical: 1 }}
+            />
+            <Tab
+              label="Workout Plan"
+              icon={<AutoAwesomeIcon />}
+              iconPosition="start"
+              sx={{ fontSize: "large", paddingVertical: 1, minHeight: 0 }}
+            />
+            <Tab label="About" sx={{ fontSize: "large", paddingVertical: 1 }} />
           </Tabs>
         </Grid>
       </header>
 
-      <main className="App-main">
-        {tab_index === 0 && (
-          <div>
-            <Grid
-              container
-              sx={{ width: "100%", justifyContent: "center" }}
-              marginBottom={2}
-            >
-              <ExerciseResultInput
+      <DataStoreProvider>
+        <main className="App-main">
+          {tab_index === 0 && (
+            <div>
+              <Grid
+                container
+                sx={{ width: "100%", justifyContent: "center" }}
+                marginBottom={2}
+              >
+                <ExerciseResultInput
+                  maxWidth={pageWidth}
+                  exerciseResultsModified={exerciseResultsModified}
+                  incrementExerciseResultsModified={
+                    incrementExerciseResultsModified
+                  }
+                ></ExerciseResultInput>
+              </Grid>
+              <Box
+                sx={{
+                  minWidth: pageWidth,
+                  maxWidth: pageWidth,
+                  width: "100%",
+                  overflowX: "auto",
+                }}
+              >
+                <ExerciseResultTable
+                  exerciseResultsModified={exerciseResultsModified}
+                  incrementExerciseResultsModified={
+                    incrementExerciseResultsModified
+                  }
+                />
+              </Box>
+            </div>
+          )}
+
+          {tab_index === 1 && (
+            <div>
+              <ExercisesBoard
                 maxWidth={pageWidth}
                 exerciseResultsModified={exerciseResultsModified}
                 incrementExerciseResultsModified={
                   incrementExerciseResultsModified
                 }
-              ></ExerciseResultInput>
-            </Grid>
-            <Box
-              sx={{
-                minWidth: pageWidth,
-                maxWidth: pageWidth,
-                width: "100%",
-                overflowX: "auto",
-              }}
-            >
-              <ExerciseResultTable
-                exerciseResultsModified={exerciseResultsModified}
-                incrementExerciseResultsModified={
-                  incrementExerciseResultsModified
-                }
               />
-            </Box>
-          </div>
-        )}
+            </div>
+          )}
 
-        {tab_index === 1 && (
-          <div>
-            <ExercisesBoard
-              maxWidth={pageWidth}
-              exerciseResultsModified={exerciseResultsModified}
-              incrementExerciseResultsModified={
-                incrementExerciseResultsModified
-              }
-            />
-          </div>
-        )}
+          {tab_index === 2 && (
+            <div>
+              <WeekPlanBoard maxWidth={pageWidth} />
+            </div>
+          )}
 
-        {/* {tab_index === 2 && (
-          <div>
-            <Typography variant="body1" marginTop={2} align="left" gutterBottom>
-              The following exercies are currently supported:
-            </Typography>
-            <ExercisesTable maxWidth={pageWidth} />
-          </div>
-        )} */}
-
-        {tab_index === 2 && (
-          <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
-            <About />
-          </Grid>
-        )}
-      </main>
+          {tab_index === 3 && (
+            <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
+              <About />
+            </Grid>
+          )}
+        </main>
+      </DataStoreProvider>
     </>
   );
 }
