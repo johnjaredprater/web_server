@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/johnjaredprater/web_server/compare/v1.3.0...v1.4.0) (2025-04-20)
+
+
+### Features
+
+* Add an experimental tab for creating a workout plan ([2c32238](https://github.com/johnjaredprater/web_server/commit/2c322382a9bf9b45142deecb9408bfcc7051e511))
+
 ## [1.3.0](https://github.com/johnjaredprater/web_server/compare/v1.2.0...v1.3.0) (2025-04-19)
 
 
