@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/johnjaredprater/web_server/compare/v1.4.0...v1.5.0) (2025-04-26)
+
+
+### Features
+
+* Add a form to create a user profile & use that as the basis for generating a workout plan ([69fbef0](https://github.com/johnjaredprater/web_server/commit/69fbef0a0532ab8c5197b216ff5466b30eeb8da6))
+
 ## [1.4.0](https://github.com/johnjaredprater/web_server/compare/v1.3.0...v1.4.0) (2025-04-20)
 
 
