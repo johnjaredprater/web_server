@@ -1,16 +1,16 @@
 // DataStoreContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { WeekPlan } from "./types";
+import { UserProfile, UserProfileFormData, WeekPlan } from "./types";
 
-// Map of data keys to their types
 interface DataMap {
-  week_plan: WeekPlan | null;
-  // Add more keys and their corresponding types here
+  week_plan?: WeekPlan | null;
+  user_profile?: UserProfile | null;
+  user_profile_form_data: UserProfileFormData;
 }
 
 // Define types for our data store
 type DataStore = {
-  [K in keyof DataMap]?: DataMap[K];
+  [K in keyof DataMap]: DataMap[K];
 };
 
 type LoadingStates = {
@@ -24,6 +24,8 @@ type DataStoreContextType = {
     key: K,
     fetchFn: () => Promise<DataMap[K]>,
   ) => Promise<DataMap[K]>;
+  // New method specifically for updating existing data
+  updateData: <K extends keyof DataMap>(key: K, newData: DataMap[K]) => void;
 };
 
 // Create the context with an initial undefined value
@@ -39,7 +41,13 @@ export function DataStoreProvider({
   children,
 }: DataStoreProviderProps): JSX.Element {
   // Our central data store state
-  const [dataStore, setDataStore] = useState<DataStore>({});
+  const [dataStore, setDataStore] = useState<DataStore>({
+    user_profile_form_data: {
+      gender: "male",
+      fitness_level: "beginner",
+      number_of_days: "1",
+    },
+  });
   // Track loading states for different data keys
   const [loadingStates, setLoadingStates] = useState<LoadingStates>({});
 
@@ -74,11 +82,23 @@ export function DataStoreProvider({
     }
   };
 
+  // New method for direct updates to the data store
+  const updateData = <K extends keyof DataMap>(
+    key: K,
+    newData: DataMap[K],
+  ): void => {
+    setDataStore((prev) => ({
+      ...prev,
+      [key]: newData,
+    }));
+  };
+
   // Provide both the data and methods to access/modify it
   const value: DataStoreContextType = {
     data: dataStore,
     isLoading: loadingStates,
     fetchData,
+    updateData,
   };
 
   return (

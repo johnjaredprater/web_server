@@ -83,7 +83,8 @@ function UnauthenticatedOnly({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   if (currentUser?.user !== null) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    const from = location.state?.from?.pathname || "/";
+    return <Navigate to={from} state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
@@ -110,7 +111,7 @@ function App() {
             <CurrentUserContextProvider>
               <Routes>
                 <Route
-                  path="/"
+                  path="/*"
                   element={
                     <AuthenticatedRoute>
                       <Home />

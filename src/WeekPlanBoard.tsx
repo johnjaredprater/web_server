@@ -13,66 +13,104 @@ import {
   Paper,
   Tab,
   Tabs,
-  TextField,
   useTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { WeekPlan } from "./types";
+import { UserProfile, WeekPlan } from "./types";
 import { useDataStore } from "./DataStoreContext";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useNavigate } from "react-router-dom";
 interface WeekPlanBoardProps {
   maxWidth: number;
 }
 
 export default function WeekPlanBoard(props: WeekPlanBoardProps) {
-  const { data, isLoading, fetchData } = useDataStore();
-
+  const { data, isLoading, fetchData, updateData } = useDataStore();
+  const weekPlan = data["week_plan"];
+  const weekPlanLoading = isLoading["week_plan"];
+  const userProfile = data["user_profile"];
   const theme = useTheme();
   const maxWidth = props.maxWidth;
 
-  const [userProfile, setUserProfile] = useState<string>(
-    "I am male, in my late 20s.\n\n" +
-      "My goal is to build upper body strength.\n\n" +
-      "I would like two different workout days generated.\n\n" +
-      "I can dedicate up to 1 hour 30 minutes to a training session.\n\n" +
-      "I have a knee injury, and don't want to put any significant force through my legs.\n\n" +
-      "I'm moderately experienced with strength training but am quite new to gymnastics and calisthenics",
-  );
-
+  const navigate = useNavigate();
   const [tab_index, setValue] = React.useState(0);
   const userContext = useContext(CurrentUserContext);
 
   const [errorText, setErrorText] = useState("");
 
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  useEffect(() => {
+    if (!userProfile) {
+      fetchData("user_profile", () => getUserProfile());
+    }
+  }, [userContext]); /* eslint-disable-line react-hooks/exhaustive-deps */
 
   useEffect(() => {
-    const getAccessToken = async () => {
-      console.log("Getting access token");
-      const accessToken = await userContext?.user?.getIdToken();
-      if (accessToken) {
-        setAccessToken(accessToken);
-      }
-    };
-    getAccessToken();
-  }, [userContext]);
+    if (userProfile) {
+      const getUserProfileFormData = () => {
+        return {
+          ...(userProfile?.age && { age: userProfile.age.toString() }),
+          ...(userProfile?.gender && { gender: userProfile.gender }),
+          ...(userProfile?.number_of_days && {
+            number_of_days: userProfile.number_of_days.toString(),
+          }),
+          ...(userProfile?.workout_duration && {
+            workout_duration: userProfile.workout_duration.toString(),
+          }),
+          ...(userProfile?.fitness_level && {
+            fitness_level: userProfile.fitness_level,
+          }),
+          ...(userProfile?.goal && { goal: userProfile.goal }),
+          ...(userProfile?.injury_description && {
+            injury_description: userProfile.injury_description,
+          }),
+        };
+      };
+      updateData("user_profile_form_data", getUserProfileFormData());
+    }
+  }, [userProfile]); /* eslint-disable-line react-hooks/exhaustive-deps */
+
+  const getUserProfile = async () => {
+    const accessToken = await userContext?.user?.getIdToken();
+    const response = await axios
+      .get(`${baseUrl}/api/user_profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response);
+          if (error.response.status === 404) {
+            console.log("User profile not found");
+          }
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+    if (response && response.status.toString().startsWith("2")) {
+      const userProfile: UserProfile = response.data;
+      return userProfile;
+    }
+    return null;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!data["week_plan"]) {
-      fetchData("week_plan", () => createWeekPlan(userProfile));
+    if (userProfile && !weekPlan) {
+      fetchData("week_plan", () => createWeekPlan());
     }
   };
 
-  const createWeekPlan = async (userProfile: string) => {
+  const createWeekPlan = async () => {
+    setErrorText("");
+    const accessToken = await userContext?.user?.getIdToken();
     const response = await axios
       .post(
         `${baseUrl}/api/week_plans`,
-        {
-          user_prompt: userProfile,
-        },
+        {},
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -89,21 +127,20 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
               "You've hit the request limit. Please try again later.",
             );
           } else {
-            setErrorText(
-              "An error occurred. Please modify your description and try again.",
-            );
+            setErrorText("An error occurred. Please try again.");
           }
         } else if (error.request) {
-          console.log(error.request);
+          console.log("error.request", error.request);
+          setErrorText(
+            "Couldn't communicate with the server. Please try again later.",
+          );
         } else {
           console.log("Error", error.message);
         }
       });
     if (response && response.status.toString().startsWith("2")) {
-      console.log("response");
-      setErrorText("");
-      const week_plan: WeekPlan = response.data;
-      return week_plan;
+      const weekPlan: WeekPlan = response.data;
+      return weekPlan;
     }
     return null;
   };
@@ -115,59 +152,93 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
   return (
     <Paper sx={{ width: maxWidth, minHeight: "640px", mb: 2, padding: 2 }}>
       <Grid container maxWidth={maxWidth} spacing={2} justifyContent="left">
-        {!data["week_plan"] && (
-          <Box
+        {!userProfile && (
+          <>
+            <Grid width="100%">
+              <Typography variant="body1" sx={{ fontStyle: "italic" }}>
+                First, fill out your user profile...
+              </Typography>
+            </Grid>
+            <Grid width="100%">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  navigate("/user-profile");
+                }}
+              >
+                Create User Profile
+              </Button>
+            </Grid>
+          </>
+        )}
+
+        {userProfile && !weekPlan && (
+          <Grid
+            container
+            maxWidth={maxWidth}
+            spacing={2}
+            justifyContent="right"
             component="form"
             onSubmit={handleSubmit}
             sx={{ width: "100%", margin: "0 auto" }}
           >
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              sx={{ fontStyle: "italic" }}
-              component="div"
-              align="left"
-              mb={2}
-            >
-              Describe yourself, your goals, your preferences and any
-              constraints to create a custom workout plan.
-            </Typography>
-            <TextField
-              fullWidth
-              id="text-input"
-              label="Enter text"
-              variant="outlined"
-              multiline
-              value={userProfile}
-              onChange={(e) => setUserProfile(e.target.value)}
-              sx={{ marginBottom: 1 }}
-              error={errorText !== ""}
-              helperText={errorText}
-              disabled={isLoading["week_plan"]}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isLoading["week_plan"]}
-            >
-              {isLoading["week_plan"] ? "Generating..." : "Create Plan"}
-            </Button>
-            {isLoading["week_plan"] && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mt: 2,
+            <Grid size={12}>
+              <Typography variant="body1" component="div" align="left">
+                Hi {userContext?.user?.displayName}!
+              </Typography>
+              <Typography variant="body1" component="div" align="left">
+                {" "}
+                Your goals: {userProfile.goal}
+              </Typography>
+            </Grid>
+            <Grid>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  navigate("/user-profile");
                 }}
               >
-                <CircularProgress />
-              </Box>
-            )}
-          </Box>
+                Edit Profile
+              </Button>
+            </Grid>
+            <Grid>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isLoading["week_plan"]}
+              >
+                {isLoading["week_plan"] ? "Generating..." : "Create Plan"}
+              </Button>
+              {weekPlanLoading && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: 2,
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+            </Grid>
+            <Grid width="100%">
+              <Typography
+                variant="body1"
+                color="secondary"
+                sx={{ fontStyle: "italic" }}
+                component="div"
+                align="left"
+              >
+                {errorText}
+              </Typography>
+            </Grid>
+          </Grid>
         )}
-        {data["week_plan"] && (
+        {userProfile && weekPlan && (
           <div>
             <Typography
               gutterBottom
@@ -185,7 +256,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
               paddingBottom={1}
               sx={{ fontStyle: "italic", color: theme.palette.text.secondary }}
             >
-              {data["week_plan"].summary}
+              {weekPlan.summary}
             </Typography>
             <Tabs
               value={tab_index}
@@ -195,7 +266,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
               scrollButtons="auto"
               allowScrollButtonsMobile
             >
-              {data["week_plan"].workouts.map((workout, workoutIndex) => (
+              {weekPlan.workouts.map((workout, workoutIndex) => (
                 <Tab
                   key={workoutIndex}
                   label={`Day ${workoutIndex + 1}`}
@@ -206,7 +277,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
                 />
               ))}
             </Tabs>
-            {data["week_plan"].workouts[tab_index] && (
+            {weekPlan.workouts[tab_index] && (
               <div>
                 <Typography
                   gutterBottom
@@ -214,7 +285,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
                   component="div"
                   align="left"
                 >
-                  {data["week_plan"].workouts[tab_index].title}
+                  {weekPlan.workouts[tab_index].title}
                 </Typography>
                 <Typography
                   variant="subtitle1"
@@ -232,17 +303,15 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
                   align="left"
                   paddingBottom={1}
                 >
-                  {data["week_plan"].workouts[tab_index].warm_ups.map(
-                    (warmUpPlan) => (
-                      <Typography
-                        key={warmUpPlan.description}
-                        variant="body1"
-                        component="li"
-                      >
-                        {warmUpPlan.description}
-                      </Typography>
-                    ),
-                  )}
+                  {weekPlan.workouts[tab_index].warm_ups.map((warmUpPlan) => (
+                    <Typography
+                      key={warmUpPlan.description}
+                      variant="body1"
+                      component="li"
+                    >
+                      {warmUpPlan.description}
+                    </Typography>
+                  ))}
                 </Typography>
                 <Typography
                   variant="subtitle1"
@@ -261,7 +330,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
                   size={12}
                   paddingBottom={1}
                 >
-                  {data["week_plan"].workouts[tab_index].exercises.map(
+                  {weekPlan.workouts[tab_index].exercises.map(
                     (exercisePlan, exerciseIndex) => (
                       <Grid key={exercisePlan.exercise} size={12}>
                         <Card variant="outlined">

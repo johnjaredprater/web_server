@@ -6,11 +6,15 @@ import SignInWithGoogleButton from "./SignInWithGoogleButton";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { SvgIcon, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
+import { useLocation } from "react-router-dom";
 import About from "../About";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+  console.log("Redirecting to:", from);
 
   async function onLogin(): Promise<void> {
     try {
