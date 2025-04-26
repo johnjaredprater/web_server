@@ -5,6 +5,7 @@ function About() {
     <Paper sx={{ width: "100%", mb: 2 }}>
       <Typography
         variant="body1"
+        component="div"
         marginTop={2}
         align="center"
         sx={{ margin: 2, fontStyle: "italic" }}

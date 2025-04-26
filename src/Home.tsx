@@ -17,6 +17,15 @@ import ExercisesBoard from "./ExercisesBoard";
 import About from "./About";
 import WeekPlanBoard from "./WeekPlanBoard";
 import { DataStoreProvider } from "./DataStoreContext";
+import {
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import UserProfileForm from "./UserProfileForm";
 
 export function isRunningLocally() {
   const hostname = window.location.hostname;
@@ -46,6 +55,10 @@ export interface ExerciseResult {
 }
 
 function Home() {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const navigate = useNavigate();
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const theme = useTheme();
 
@@ -62,12 +75,6 @@ function Home() {
   const [exerciseResultsModified, incrementExerciseResultsModified] =
     useState(0);
 
-  const [tab_index, setValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   return (
     <>
       <header className="App-header">
@@ -79,6 +86,10 @@ function Home() {
               align="left"
               data-tooltip-content={`version: ${process.env.REACT_APP_VERSION}`}
               data-tooltip-id="version-tooltip"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                navigate("/");
+              }}
             >
               <SvgIcon
                 fontSize="large"
@@ -118,10 +129,12 @@ function Home() {
                       bgcolor: theme.palette.primary.main,
                       color: "#001c56",
                     }}
-                    data-tooltip-content={
-                      "Signed in as " + userContext.user.displayName
-                    }
+                    style={{ cursor: "pointer" }}
+                    data-tooltip-content={"Edit Profile"}
                     data-tooltip-id="user-tooltip"
+                    onClick={() => {
+                      navigate("/user-profile");
+                    }}
                   />
                 )}
                 <Tooltip
@@ -161,8 +174,7 @@ function Home() {
           marginBottom={1}
         >
           <Tabs
-            value={tab_index}
-            onChange={handleChange}
+            value={currentPath}
             sx={{
               borderBottom: 1,
               borderColor: "divider",
@@ -173,82 +185,116 @@ function Home() {
             allowScrollButtonsMobile
           >
             <Tab
+              component={Link}
               label="Results"
+              to="/results"
+              value="/results"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
             <Tab
+              component={Link}
               label="Personal Bests"
+              to="/personal-bests"
+              value="/personal-bests"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
             <Tab
+              component={Link}
               label="Workout Plan"
+              to="/workout-plan"
+              value="/workout-plan"
               icon={<AutoAwesomeIcon />}
               iconPosition="start"
               sx={{ fontSize: "large", paddingVertical: 1, minHeight: 0 }}
             />
-            <Tab label="About" sx={{ fontSize: "large", paddingVertical: 1 }} />
+            <Tab
+              component={Link}
+              label="Profile"
+              to="/user-profile"
+              value="/user-profile"
+              sx={{ fontSize: "large", paddingVertical: 1 }}
+            />
+            <Tab
+              component={Link}
+              label="About"
+              to="/about"
+              value="/about"
+              sx={{ fontSize: "large", paddingVertical: 1 }}
+            />
           </Tabs>
         </Grid>
       </header>
 
       <DataStoreProvider>
         <main className="App-main">
-          {tab_index === 0 && (
-            <div>
-              <Grid
-                container
-                sx={{ width: "100%", justifyContent: "center" }}
-                marginBottom={2}
-              >
-                <ExerciseResultInput
-                  maxWidth={pageWidth}
-                  exerciseResultsModified={exerciseResultsModified}
-                  incrementExerciseResultsModified={
-                    incrementExerciseResultsModified
-                  }
-                ></ExerciseResultInput>
-              </Grid>
-              <Box
-                sx={{
-                  minWidth: pageWidth,
-                  maxWidth: pageWidth,
-                  width: "100%",
-                  overflowX: "auto",
-                }}
-              >
-                <ExerciseResultTable
-                  exerciseResultsModified={exerciseResultsModified}
-                  incrementExerciseResultsModified={
-                    incrementExerciseResultsModified
-                  }
-                />
-              </Box>
-            </div>
-          )}
-
-          {tab_index === 1 && (
-            <div>
-              <ExercisesBoard
-                maxWidth={pageWidth}
-                exerciseResultsModified={exerciseResultsModified}
-                incrementExerciseResultsModified={
-                  incrementExerciseResultsModified
-                }
-              />
-            </div>
-          )}
-
-          {tab_index === 2 && (
-            <div>
-              <WeekPlanBoard maxWidth={pageWidth} />
-            </div>
-          )}
-
-          {tab_index === 3 && (
-            <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
-              <About />
-            </Grid>
-          )}
+          <Routes>
+            <Route path="/" element={<Navigate to="/results" replace />} />
+            <Route
+              path="/results"
+              element={
+                <div>
+                  <Grid
+                    container
+                    sx={{ width: "100%", justifyContent: "center" }}
+                    marginBottom={2}
+                  >
+                    <ExerciseResultInput
+                      maxWidth={pageWidth}
+                      exerciseResultsModified={exerciseResultsModified}
+                      incrementExerciseResultsModified={
+                        incrementExerciseResultsModified
+                      }
+                    ></ExerciseResultInput>
+                  </Grid>
+                  <Box
+                    sx={{
+                      minWidth: pageWidth,
+                      maxWidth: pageWidth,
+                      width: "100%",
+                      overflowX: "auto",
+                    }}
+                  >
+                    <ExerciseResultTable
+                      exerciseResultsModified={exerciseResultsModified}
+                      incrementExerciseResultsModified={
+                        incrementExerciseResultsModified
+                      }
+                    />
+                  </Box>
+                </div>
+              }
+            />
+            <Route
+              path="/personal-bests"
+              element={
+                <div>
+                  <ExercisesBoard
+                    maxWidth={pageWidth}
+                    exerciseResultsModified={exerciseResultsModified}
+                    incrementExerciseResultsModified={
+                      incrementExerciseResultsModified
+                    }
+                  />
+                </div>
+              }
+            />
+            <Route
+              path="/workout-plan"
+              element={<WeekPlanBoard maxWidth={pageWidth} />}
+            />
+            <Route
+              path="/about"
+              element={
+                <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
+                  <About />
+                </Grid>
+              }
+            />
+            <Route
+              path="/user-profile"
+              element={<UserProfileForm maxWidth={pageWidth} />}
+            />
+          </Routes>
         </main>
       </DataStoreProvider>
     </>
