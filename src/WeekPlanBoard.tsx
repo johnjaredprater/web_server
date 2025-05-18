@@ -139,6 +139,17 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
     }
   };
 
+  const handleReroll = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (userProfile) {
+      console.log("rerolling");
+      data["week_plan"] = null;
+      console.log("week_plan", data["week_plan"]);
+      fetchData("week_plan", () => createWeekPlan());
+    }
+  };
+
   const createWeekPlan = async () => {
     setErrorText("");
     const accessToken = await userContext?.user?.getIdToken();
@@ -431,6 +442,51 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
                 </Grid>
               </div>
             )}
+            <Grid
+              container
+              maxWidth={maxWidth}
+              spacing={2}
+              justifyContent="right"
+              component="form"
+              onSubmit={handleReroll}
+              sx={{ width: "100%", margin: "0 auto" }}
+            >
+              <Grid>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={isLoading["week_plan"]}
+                >
+                  {isLoading["week_plan"]
+                    ? "Generating..."
+                    : "Reroll A New Plan"}
+                </Button>
+                {weekPlanLoading && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: 2,
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                )}
+              </Grid>
+              <Grid width="100%">
+                <Typography
+                  variant="body1"
+                  color="secondary"
+                  sx={{ fontStyle: "italic" }}
+                  component="div"
+                  align="left"
+                >
+                  {errorText}
+                </Typography>
+              </Grid>
+            </Grid>
           </div>
         )}
       </Grid>
