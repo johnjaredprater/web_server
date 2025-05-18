@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/johnjaredprater/web_server/compare/v1.5.0...v1.6.0) (2025-05-18)
+
+
+### Features
+
+* add re-roll button ([be4d340](https://github.com/johnjaredprater/web_server/commit/be4d3400b108a7356f1f9ab1a950868943496eef))
+* persist & load workout plans from the backend ([3e082d9](https://github.com/johnjaredprater/web_server/commit/3e082d9351f5a9d00cc32b57f59271a81fc23e65))
+
 ## [1.5.0](https://github.com/johnjaredprater/web_server/compare/v1.4.0...v1.5.0) (2025-04-26)
 
 
