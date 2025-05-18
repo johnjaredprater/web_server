@@ -56,7 +56,8 @@ export interface ExerciseResult {
 
 function Home() {
   const location = useLocation();
-  const currentPath = location.pathname;
+  const currentPath =
+    location.pathname === "/" ? "/results" : location.pathname;
   const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
