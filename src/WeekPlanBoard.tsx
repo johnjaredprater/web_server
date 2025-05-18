@@ -13,13 +13,15 @@ import {
   Paper,
   Tab,
   Tabs,
+  Skeleton,
   useTheme,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
 import { UserProfile, WeekPlan } from "./types";
 import { useDataStore } from "./DataStoreContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid2";
+
 interface WeekPlanBoardProps {
   maxWidth: number;
 }
@@ -29,6 +31,8 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
   const weekPlan = data["week_plan"];
   const weekPlanLoading = isLoading["week_plan"];
   const userProfile = data["user_profile"];
+  const userProfileLoading = isLoading["user_profile"];
+
   const theme = useTheme();
   const maxWidth = props.maxWidth;
 
@@ -41,6 +45,9 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
   useEffect(() => {
     if (!userProfile) {
       fetchData("user_profile", () => getUserProfile());
+    }
+    if (!weekPlan) {
+      fetchData("week_plan", () => getWeekPlan());
     }
   }, [userContext]); /* eslint-disable-line react-hooks/exhaustive-deps */
 
@@ -92,6 +99,34 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
     if (response && response.status.toString().startsWith("2")) {
       const userProfile: UserProfile = response.data;
       return userProfile;
+    }
+    return null;
+  };
+
+  const getWeekPlan = async () => {
+    const accessToken = await userContext?.user?.getIdToken();
+    const response = await axios
+      .get(`${baseUrl}/api/week_plans/latest`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response);
+          if (error.response.status === 404) {
+            console.log("User profile not found");
+          }
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+    if (response && response.status.toString().startsWith("2")) {
+      const weekPlan: WeekPlan = response.data;
+      console.log("weekPlan", weekPlan);
+      return weekPlan;
     }
     return null;
   };
@@ -151,8 +186,27 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
 
   return (
     <Paper sx={{ width: maxWidth, minHeight: "640px", mb: 2, padding: 2 }}>
-      <Grid container maxWidth={maxWidth} spacing={2} justifyContent="left">
-        {!userProfile && (
+      <Grid container maxWidth={maxWidth} spacing={2}>
+        {(weekPlanLoading || userProfileLoading) && (
+          <>
+            <Grid
+              width="100%"
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Skeleton variant="rounded" height={48} width="50%" />
+            </Grid>
+            <Grid width="100%">
+              <Skeleton variant="rounded" width={maxWidth} height={48} />
+            </Grid>
+            <Grid width="100%">
+              <Skeleton variant="rounded" width={maxWidth} height={32} />
+            </Grid>
+            <Grid width="100%">
+              <Skeleton variant="rounded" width={maxWidth} height={240} />
+            </Grid>
+          </>
+        )}
+        {!userProfileLoading && !userProfile && (
           <>
             <Grid width="100%">
               <Typography variant="body1" sx={{ fontStyle: "italic" }}>
@@ -173,7 +227,7 @@ export default function WeekPlanBoard(props: WeekPlanBoardProps) {
           </>
         )}
 
-        {userProfile && !weekPlan && (
+        {userProfile && !weekPlanLoading && !weekPlan && (
           <Grid
             container
             maxWidth={maxWidth}
