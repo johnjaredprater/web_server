@@ -8,6 +8,7 @@ import Home, { isRunningLocally } from "./Home";
 import Login from "./auth/Login";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { teal, pink } from "@mui/material/colors";
+import Components from "./components/Components";
 
 const theme = createTheme({
   palette: {
@@ -111,19 +112,22 @@ function App() {
             <CurrentUserContextProvider>
               <Routes>
                 <Route
-                  path="/*"
-                  element={
-                    <AuthenticatedRoute>
-                      <Home />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
                   path="/login"
                   element={
                     <UnauthenticatedOnly>
                       <Login />
                     </UnauthenticatedOnly>
+                  }
+                />
+                {isRunningLocally() && (
+                  <Route path="/components/*" element={<Components />} />
+                )}
+                <Route
+                  path="*"
+                  element={
+                    <AuthenticatedRoute>
+                      <Home />
+                    </AuthenticatedRoute>
                   }
                 />
               </Routes>

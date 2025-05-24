@@ -5,7 +5,7 @@ import { auth } from "./firebase/Auth";
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { SvgIcon, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { useLocation } from "react-router-dom";
 import About from "../About";
 
@@ -51,7 +51,7 @@ const Login = () => {
               </SvgIcon>
               GymTrack
             </Typography>
-            <div>
+            <div style={{ marginBottom: 16 }}>
               <SignInWithGoogleButton
                 onClick={onLogin}
               ></SignInWithGoogleButton>

@@ -4,7 +4,7 @@ import "./App.css";
 import { CurrentUserContext } from "./App";
 import { Button, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -18,6 +18,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { useDataStore } from "./DataStoreContext";
 
 interface ExerciseResultForm {
   exercise_name: string;
@@ -30,10 +31,6 @@ interface ExerciseResultForm {
 
 type ExerciseResultInputProps = {
   maxWidth: number;
-  exerciseResultsModified: number;
-  incrementExerciseResultsModified: React.Dispatch<
-    React.SetStateAction<number>
-  >;
 };
 
 type NumberInputFieldProps = {
@@ -106,39 +103,43 @@ const NumberInputField: React.FC<NumberInputFieldProps> = ({
 
 const ExerciseResultInput: React.FC<ExerciseResultInputProps> = ({
   maxWidth,
-  exerciseResultsModified,
-  incrementExerciseResultsModified,
 }) => {
   const userContext = useContext(CurrentUserContext);
 
-  const [exercises, updateExercises] = useState<Exercise[]>([]);
+  const { data, isLoading, fetchData } = useDataStore();
+  const exercises = data["exercises"];
+  const exercisesLoading = isLoading["exercises"];
 
   useEffect(() => {
-    const getExercises = async () => {
-      const accessToken = await userContext?.user?.getIdToken();
-      const response = await axios
-        .get(`${baseUrl}/api/exercises`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error", error.message);
-          }
-          console.log(error.config);
-        });
-      if (response) {
-        updateExercises(response.data);
-      }
-    };
-    getExercises();
-  }, [userContext]);
+    if (exercises.length === 0 && !exercisesLoading) {
+      fetchData("exercises", () => getExercises());
+    }
+  }, [userContext]); /* eslint-disable-line react-hooks/exhaustive-deps */
 
+  const getExercises = async () => {
+    console.log("GETTING EXERCISES");
+    const accessToken = await userContext?.user?.getIdToken();
+    const response = await axios
+      .get(`${baseUrl}/api/exercises`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
+    if (response) {
+      return response.data;
+    }
+    return [];
+  };
   type InputAccordionProps = {
     exercises: Exercise[];
   };
@@ -197,7 +198,6 @@ const ExerciseResultInput: React.FC<ExerciseResultInputProps> = ({
           });
       }
 
-      incrementExerciseResultsModified(exerciseResultsModified + 1);
       setFormData({
         exercise_name: "",
         sets: "",

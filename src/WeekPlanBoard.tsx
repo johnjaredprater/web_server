@@ -20,7 +20,7 @@ import { UserProfile, WeekPlan } from "./types";
 import { useDataStore } from "./DataStoreContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 
 interface WeekPlanBoardProps {
   maxWidth: number;

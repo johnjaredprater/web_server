@@ -24,7 +24,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
 import SearchIcon from "@mui/icons-material/Search";
@@ -38,10 +38,6 @@ interface Data {
 
 interface ExercisesBoardProps {
   maxWidth: number;
-  exerciseResultsModified: number;
-  incrementExerciseResultsModified: React.Dispatch<
-    React.SetStateAction<number>
-  >;
 }
 
 export default function ExercisesBoard(props: ExercisesBoardProps) {
@@ -137,7 +133,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
       updateBoardData(await getBoardData());
     };
     update();
-  }, [userContext, props.exerciseResultsModified]);
+  }, [userContext]);
 
   useEffect(() => {
     if (!searchTerm) {
@@ -206,7 +202,7 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
             >
               <CardActionArea>
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography align="left">
+                  <Typography align="left" component="div">
                     <Typography
                       gutterBottom
                       variant="h5"
@@ -215,12 +211,18 @@ export default function ExercisesBoard(props: ExercisesBoardProps) {
                     >
                       {personalBests.exercise.name}
                     </Typography>
-                    <Typography variant="body2">
-                      <Typography sx={{ color: "text.primary" }}>
+                    <Typography variant="body2" component="div">
+                      <Typography
+                        component="span"
+                        sx={{ color: "text.primary" }}
+                      >
                         Weight: {personalBests.weight}kg
                       </Typography>
-                      <Typography sx={{ color: "text.secondary" }}>
-                        <div>Reps: {personalBests.reps}</div>
+                      <Typography
+                        component="span"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Reps: {personalBests.reps}
                       </Typography>
                     </Typography>
                   </Typography>

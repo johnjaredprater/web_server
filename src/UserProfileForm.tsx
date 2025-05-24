@@ -7,7 +7,7 @@ import axios from "axios";
 import { Button, TextField, MenuItem, InputLabel, Paper } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Slider from "@mui/material/Slider";
 import { UserProfile, UserProfileFormData } from "./types";
 import { useDataStore } from "./DataStoreContext";

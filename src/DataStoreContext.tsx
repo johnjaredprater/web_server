@@ -1,10 +1,13 @@
 // DataStoreContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { UserProfile, UserProfileFormData, WeekPlan } from "./types";
+import { Exercise, ExerciseResult } from "./Home";
 
 interface DataMap {
-  week_plan?: WeekPlan | null;
-  user_profile?: UserProfile | null;
+  exercises: Exercise[];
+  exercise_results: ExerciseResult[];
+  week_plan: WeekPlan | null;
+  user_profile: UserProfile | null;
   user_profile_form_data: UserProfileFormData;
 }
 
@@ -42,6 +45,10 @@ export function DataStoreProvider({
 }: DataStoreProviderProps): JSX.Element {
   // Our central data store state
   const [dataStore, setDataStore] = useState<DataStore>({
+    exercises: [],
+    exercise_results: [],
+    week_plan: null,
+    user_profile: null,
     user_profile_form_data: {
       gender: "male",
       fitness_level: "beginner",
@@ -56,8 +63,13 @@ export function DataStoreProvider({
     key: K,
     fetchFn: () => Promise<DataMap[K]>,
   ): Promise<DataMap[K]> => {
-    // If we already have this data, don't fetch again
-    if (dataStore[key]) return dataStore[key] as DataMap[K];
+    // If we already have this data and it's not an empty array, don't fetch again
+    if (
+      dataStore[key] &&
+      (Array.isArray(dataStore[key]) ? dataStore[key].length > 0 : true)
+    ) {
+      return dataStore[key] as DataMap[K];
+    }
 
     // Set loading state for this key
     setLoadingStates((prev) => ({ ...prev, [key]: true }));

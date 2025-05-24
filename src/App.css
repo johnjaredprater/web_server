@@ -1,38 +1,51 @@
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #27272a;
+}
+
 .App {
   text-align: center;
+  height: 100%;
+  background-color: #27272a;
+  overflow-y: auto;
+}
+
+/* Common styles for App components */
+.App-fullpage,
+.App-header,
+.App-main {
+  background-color: #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-fullpage {
-  background-color: #27272a;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100vh;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
 .App-header {
-  background-color: #27272a;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 10vh;
+  min-height: 120px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-main {
-  background-color: #27272a;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 90vh;
 }
 
 .App-link {

@@ -18,10 +18,12 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { useContext, useEffect, useState } from "react";
-import { baseUrl, ExerciseResult } from "./Home";
+import { baseUrl } from "./Home";
 import { format } from "date-fns";
 import { CurrentUserContext } from "./App";
 import axios from "axios";
+import { useDataStore } from "./DataStoreContext";
+import { getExerciseResults } from "./api";
 
 interface Data {
   id: string;
@@ -177,10 +179,6 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
 interface EnhancedTableToolbarProps {
   selected: readonly string[];
   setSelected: React.Dispatch<React.SetStateAction<readonly string[]>>;
-  exerciseResultsModified: number;
-  incrementExerciseResultsModified: React.Dispatch<
-    React.SetStateAction<number>
-  >;
 }
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { selected, setSelected } = props;
@@ -210,8 +208,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     await Promise.all(promises);
 
     setSelected([]);
-
-    props.incrementExerciseResultsModified(props.exerciseResultsModified + 1);
   };
 
   return (
@@ -260,14 +256,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-interface EnhancedTableProps {
-  exerciseResultsModified: number;
-  incrementExerciseResultsModified: React.Dispatch<
-    React.SetStateAction<number>
-  >;
-}
-
-export default function ExerciseResultTable(props: EnhancedTableProps) {
+export default function ExerciseResultTable() {
   const [order, setOrder] = React.useState<Order>("desc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("date");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -276,47 +265,34 @@ export default function ExerciseResultTable(props: EnhancedTableProps) {
   const [tableData, updateTableData] = useState<Data[]>([]);
   const userContext = useContext(CurrentUserContext);
 
+  const { data, isLoading, fetchData } = useDataStore();
+  const exerciseResults = data["exercise_results"];
+  const exerciseResultsLoading = isLoading["exercise_results"];
+
   useEffect(() => {
-    const getTableData = async () => {
-      const accessToken = await userContext?.user?.getIdToken();
-      const response = await axios
-        .get(`${baseUrl}/api/exercise_results`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error", error.message);
-          }
-          console.log(error.config);
-        });
-      if (response) {
-        const exerciseResults: ExerciseResult[] = response.data;
-        return exerciseResults.map((exerciseResult) => {
-          const tableRow = {
-            id: exerciseResult.id,
-            date: exerciseResult.date,
-            exercise: exerciseResult.exercise.name,
-            weight: exerciseResult.weight,
-            reps: exerciseResult.reps,
-            sets: exerciseResult.sets,
-            rpe: exerciseResult.rpe,
-          };
-          return tableRow;
-        });
-      }
-      return [];
-    };
-    const update = async () => {
-      updateTableData(await getTableData());
-    };
-    update();
-  }, [userContext, props.exerciseResultsModified]);
+    if (exerciseResults.length === 0 && !exerciseResultsLoading) {
+      fetchData("exercise_results", async () => {
+        const accessToken = await userContext?.user?.getIdToken();
+        return getExerciseResults(accessToken);
+      });
+    }
+  }, [userContext]); /* eslint-disable-line react-hooks/exhaustive-deps */
+
+  useEffect(() => {
+    const tableData = exerciseResults.map((exerciseResult) => {
+      const tableRow = {
+        id: exerciseResult.id,
+        date: exerciseResult.date,
+        exercise: exerciseResult.exercise.name,
+        weight: exerciseResult.weight,
+        reps: exerciseResult.reps,
+        sets: exerciseResult.sets,
+        rpe: exerciseResult.rpe,
+      };
+      return tableRow;
+    });
+    updateTableData(tableData);
+  }, [exerciseResults]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -380,14 +356,7 @@ export default function ExerciseResultTable(props: EnhancedTableProps) {
 
   return (
     <Paper sx={{ width: "100%", mb: 2 }}>
-      <EnhancedTableToolbar
-        selected={selected}
-        setSelected={setSelected}
-        exerciseResultsModified={props.exerciseResultsModified}
-        incrementExerciseResultsModified={
-          props.incrementExerciseResultsModified
-        }
-      />
+      <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
       <TableContainer>
         <Table aria-labelledby="tableTitle" size={"small"} padding="none">
           <EnhancedTableHead

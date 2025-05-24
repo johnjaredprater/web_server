@@ -3,12 +3,19 @@ import "./App.css";
 import { auth } from "./auth/firebase/Auth";
 import { signOut } from "firebase/auth";
 import { CurrentUserContext } from "./App";
-import { Avatar, Box, SvgIcon, Tab, Tabs, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import {
+  Avatar,
+  Box,
+  Button,
+  SvgIcon,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { Tooltip } from "react-tooltip";
-import ExerciseResultInput from "./ExerciseResultsInput";
-import React from "react";
+import ExerciseResultInputModal from "./ExerciseResultsInputModal";
 import ExerciseResultTable from "./ExerciseResultTable";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
@@ -56,8 +63,16 @@ export interface ExerciseResult {
 
 function Home() {
   const location = useLocation();
-  const currentPath =
-    location.pathname === "/" ? "/results" : location.pathname;
+  const validPaths = [
+    "/track/results",
+    "/track/personal-bests",
+    "/track/workout-plan",
+    "/track/user-profile",
+    "/track/about",
+  ];
+  const currentPath = validPaths.includes(location.pathname)
+    ? location.pathname
+    : false;
   const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -72,9 +87,6 @@ function Home() {
   const pageWidth = windowWidth >= 660 ? 600 : windowWidth - 60;
 
   const userContext = useContext(CurrentUserContext);
-
-  const [exerciseResultsModified, incrementExerciseResultsModified] =
-    useState(0);
 
   return (
     <>
@@ -188,22 +200,22 @@ function Home() {
             <Tab
               component={Link}
               label="Results"
-              to="/results"
-              value="/results"
+              to="/track/results"
+              value="/track/results"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
             <Tab
               component={Link}
               label="Personal Bests"
-              to="/personal-bests"
-              value="/personal-bests"
+              to="/track/personal-bests"
+              value="/track/personal-bests"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
             <Tab
               component={Link}
               label="Workout Plan"
-              to="/workout-plan"
-              value="/workout-plan"
+              to="/track/workout-plan"
+              value="/track/workout-plan"
               icon={<AutoAwesomeIcon />}
               iconPosition="start"
               sx={{ fontSize: "large", paddingVertical: 1, minHeight: 0 }}
@@ -211,15 +223,15 @@ function Home() {
             <Tab
               component={Link}
               label="Profile"
-              to="/user-profile"
-              value="/user-profile"
+              to="/track/user-profile"
+              value="/track/user-profile"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
             <Tab
               component={Link}
               label="About"
-              to="/about"
-              value="/about"
+              to="/track/about"
+              value="/track/about"
               sx={{ fontSize: "large", paddingVertical: 1 }}
             />
           </Tabs>
@@ -229,9 +241,20 @@ function Home() {
       <DataStoreProvider>
         <main className="App-main">
           <Routes>
-            <Route path="/" element={<Navigate to="/results" replace />} />
             <Route
-              path="/results"
+              path="/"
+              element={<Navigate to="/track/results" replace />}
+            />
+            <Route
+              path="/track"
+              element={<Navigate to="/track/results" replace />}
+            />
+            <Route
+              path="/track/"
+              element={<Navigate to="/track/results" replace />}
+            />
+            <Route
+              path="track/results"
               element={
                 <div>
                   <Grid
@@ -239,13 +262,7 @@ function Home() {
                     sx={{ width: "100%", justifyContent: "center" }}
                     marginBottom={2}
                   >
-                    <ExerciseResultInput
-                      maxWidth={pageWidth}
-                      exerciseResultsModified={exerciseResultsModified}
-                      incrementExerciseResultsModified={
-                        incrementExerciseResultsModified
-                      }
-                    ></ExerciseResultInput>
+                    <ExerciseResultInputModal maxWidth={pageWidth} />
                   </Grid>
                   <Box
                     sx={{
@@ -255,36 +272,25 @@ function Home() {
                       overflowX: "auto",
                     }}
                   >
-                    <ExerciseResultTable
-                      exerciseResultsModified={exerciseResultsModified}
-                      incrementExerciseResultsModified={
-                        incrementExerciseResultsModified
-                      }
-                    />
+                    <ExerciseResultTable />
                   </Box>
                 </div>
               }
             />
             <Route
-              path="/personal-bests"
+              path="track/personal-bests"
               element={
                 <div>
-                  <ExercisesBoard
-                    maxWidth={pageWidth}
-                    exerciseResultsModified={exerciseResultsModified}
-                    incrementExerciseResultsModified={
-                      incrementExerciseResultsModified
-                    }
-                  />
+                  <ExercisesBoard maxWidth={pageWidth} />
                 </div>
               }
             />
             <Route
-              path="/workout-plan"
+              path="track/workout-plan"
               element={<WeekPlanBoard maxWidth={pageWidth} />}
             />
             <Route
-              path="/about"
+              path="track/about"
               element={
                 <Grid container sx={{ width: "100%", maxWidth: pageWidth }}>
                   <About />
@@ -292,8 +298,27 @@ function Home() {
               }
             />
             <Route
-              path="/user-profile"
+              path="track/user-profile"
               element={<UserProfileForm maxWidth={pageWidth} />}
+            />
+            <Route
+              path="*"
+              element={
+                <>
+                  <Typography variant="body1" gutterBottom>
+                    404: {window.location.origin}
+                    {location.pathname} not found
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      navigate("/track/results");
+                    }}
+                  >
+                    Go to Results
+                  </Button>
+                </>
+              }
             />
           </Routes>
         </main>
